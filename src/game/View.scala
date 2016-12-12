@@ -18,15 +18,15 @@ object View extends SimpleSwingApplication {
 
     override def paintComponent(g: Graphics2D) {
       for (i <- 0 until width) {
-        for (k <- 0 until height) { // Loop through the world grid
-          world(i)(k) match {       // Match what is found in every position
+        for (j <- 0 until height) { // Loop through the world grid
+          world(i)(j) match {       // Match what is found in every position
             case Wall => {          // If a wall is there, change color to black and paint a black tile representing a wall
               g.setColor(Color.BLACK)
-              g.fillRect(i * cellSize, k * cellSize, cellSize, cellSize)
+              g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize)
             }
             case Floor => {         // If a floor is there, change color to cyan and paint a cyan tile representing floor
               g.setColor(Color.CYAN)
-              g.fillRect(i * cellSize, k * cellSize, cellSize, cellSize)
+              g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize)
             }
           }
         }
@@ -38,7 +38,7 @@ object View extends SimpleSwingApplication {
   }
 
   def top = new MainFrame {
-    title = "Game"
+    title = "Phuksiletka"
     preferredSize = new Dimension(width * cellSize, height * cellSize)
 
     contents = canvas
