@@ -16,7 +16,6 @@ import java.awt.Color
 import java.awt.event.KeyEvent._
 
 object View extends SimpleSwingApplication {
-  val x = ""
   val url = new URL("file:///Users/axel/workspace/phuksiletka/music/juna_kulkee.wav")
   val audioIn = AudioSystem.getAudioInputStream(url)
   val clip = AudioSystem.getClip
