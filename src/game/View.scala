@@ -16,6 +16,8 @@ import scala.io.Source
 import java.awt.Color
 import java.awt.event.KeyEvent._
 import java.io.File
+//import processing.core._
+
 
 object View extends SimpleSwingApplication {
   var x = ""
@@ -55,6 +57,8 @@ object View extends SimpleSwingApplication {
       g.setColor(Color.ORANGE) // Set color for the player to be drawn
       g.fillOval(player.x * 50, player.y * 50, 50, 50) // Draw player to its location
      // g.setColor(Color.GRAY)
+//       val PImageX = loadImage("bollinger.png")
+  
     }
   }
  
