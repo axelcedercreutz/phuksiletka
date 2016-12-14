@@ -13,7 +13,7 @@ import java.net.URL
 import javax.sound.sampled._
 import scala.io.Source
 import java.awt.Color
-import javafx.scene.input.KeyCode
+import java.awt.event.KeyEvent._
 
 object View extends SimpleSwingApplication {
   
@@ -45,7 +45,7 @@ object View extends SimpleSwingApplication {
               g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize)
             }
             case Floor => {         // If a floor is there, change color to cyan and paint a cyan tile representing floor
-              g.setColor(Color.CYAN)
+              g.setColor(Color.WHITE)
               g.fillRect(i * cellSize, j * cellSize, cellSize, cellSize)
             }
           }
@@ -56,7 +56,7 @@ object View extends SimpleSwingApplication {
       g.setColor(Color.GRAY)
     }
   }
-
+ 
   def top = new MainFrame {
     title = "Phuksiletka"
     preferredSize = new Dimension(width * cellSize, height * cellSize)
@@ -64,24 +64,21 @@ object View extends SimpleSwingApplication {
     val timer = new Timer(1000,TimerListener)
     timer.start()
     
-    for (i <- 0 until 20) {
+    for (i <- 0 until 20; j <- 0 until 10) {
       world(i)(0) = Wall
-      world(19)(Math.min(i, 9)) = Wall
-      world(0)(Math.min(i, 9)) = Wall
+      world(19)(j) = Wall
       world(i)(9) = Wall
-      world(r.nextInt(20))(r.nextInt(10)) = Wall
-      world(r.nextInt(20))(r.nextInt(10)) = Wall
+      world(0)(j) = Wall
     }
     
     listenTo(canvas.mouse.clicks)
     
     reactions += {
-      
-//    case KeyPressed(canvas, _ , _, _) => {
-//        if (KeyPressed.KeyCode == KeyEvent.VK_LEFT) {
-//            player.move(player.x - 1 / cellSize, player.y / cellSize)
-//            println("touched left")
-//            repaint()
+      case KeyPressed(canvas, point , _, _) => {
+        //if (KeyPressed == KeyEvent.VK_LEFT) {
+            player.move(player.x + 1 / cellSize, player.y / cellSize)
+            println("touched left")
+            repaint()
 //          }
 //        else if(KeyPressed == KeyEvent.VK_RIGHT) {
 //            player.move(player.x - 1 / cellSize, player.y / cellSize)
@@ -99,7 +96,7 @@ object View extends SimpleSwingApplication {
 //            repaint()
 //          }
 //        else repaint()
-//      }
+      }
       case MouseClicked(canvas, point, _, _, _) => {
         if (point.x <= width * cellSize && point.y <= height * cellSize) {
           if (player.canMoveTo(point.x / cellSize, point.y / cellSize) &&
@@ -111,41 +108,43 @@ object View extends SimpleSwingApplication {
     object TimerListener extends ActionListener {
 
   		override def actionPerformed(e : ActionEvent) {
-  			//repaint()
+  			repaint()
   		}
 
 	  }
     
     object KeyboardListener extends KeyListener {
-    
-  
+
       override def keyPressed(e: KeyEvent) {
         //change direction
         dir = e.getKeyCode() match {
           case KeyEvent.VK_LEFT => {
-            player.move(player.x + 1 / cellSize, player.y + 1 / cellSize)
+            player.move(player.x + 1 / cellSize, player.y / cellSize)
             println("touched left")
             (1,1)
           }
           case KeyEvent.VK_RIGHT => {
+            player.move(player.x - 1 / cellSize, player.y / cellSize)
             println("touched right")
             (2,2)
           }
           case KeyEvent.VK_UP => {
+            player.move(player.x / cellSize, player.y - 1 / cellSize)
             println("touched up")
             (2,2)
           }
           case KeyEvent.VK_DOWN => {
+            player.move(player.x / cellSize, player.y + 1 / cellSize)
             println("touched down")
             (3,3)
           }
           case _ => dir
-    //      case KeyEvent.VK_SPACE => {
-    //						if(timer.isRunning())
-    //							timer.stop()
-    //						else
-    //							timer.start()
-    //  					}
+//          case KeyEvent.VK_SPACE => {
+//    						if(timer.isRunning())
+//    							timer.stop()
+//    						else
+//    							timer.start()
+//      					}
         }
     }
     override def keyReleased(e: KeyEvent) {}
