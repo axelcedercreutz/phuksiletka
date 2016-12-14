@@ -26,6 +26,7 @@ object Window {
 class Window extends PApplet {
   private val windowHeight = 1200
   private val windowWidth = 800
+  private val highScore = 0
   private val game = new Game(windowHeight, windowWidth)
   override def settings() = {
     size(game.height, game.width)
@@ -53,7 +54,7 @@ class Window extends PApplet {
     
     fill(118, 22, 167);
     textSize(17);
-    text( "High Score: "/* + highScore*/, 70, 70);
+    text( "High Score: "+ highScore, 70, 70);
   }
 }
 
