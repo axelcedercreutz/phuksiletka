@@ -63,16 +63,16 @@ class Window extends PApplet {
     case 'q'  => {
       println("test")
     }
-    case KeyEvent.VK_LEFT => {
+    case 'a' => {
       println("testLEft")
     }
-    case KeyEvent.VK_RIGHT => {
+    case 'd' => {
       println("testRight")
     }
-    case KeyEvent.VK_UP => {
+    case 'w' => {
       println("testUp")
     }
-    case KeyEvent.VK_DOWN => {
+    case 's' => {
       println("down")
     }
     case _ => {}
