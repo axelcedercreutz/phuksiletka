@@ -15,12 +15,15 @@ import scala.io.Source
 import java.awt.Color
 import java.awt.event.KeyEvent._
 import java.io.File
+//import processing.core._
+
 
 object View extends SimpleSwingApplication {
+  var x = ""
   val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   val clip = AudioSystem.getClip
   clip.open(audioIn)
-  clip.loop(1000)
+  clip.loop(Clip.LOOP_CONTINUOUSLY)
   val width = 20
   val height = 10
   val cellSize = 50
@@ -53,6 +56,8 @@ object View extends SimpleSwingApplication {
       g.setColor(Color.ORANGE) // Set color for the player to be drawn
       g.fillOval(player.x * 50, player.y * 50, 50, 50) // Draw player to its location
      // g.setColor(Color.GRAY)
+//       val PImageX = loadImage("bollinger.png")
+  
     }
   }
  
