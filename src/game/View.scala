@@ -16,12 +16,12 @@ import java.awt.Color
 import java.awt.event.KeyEvent._
 
 object View extends SimpleSwingApplication {
-  val x = ""
-  val url = new URL("file:///Users/axel/workspace/phuksiletka/music/juna_kulkee.wav")
-  val audioIn = AudioSystem.getAudioInputStream(url)
-  val clip = AudioSystem.getClip
-  clip.open(audioIn)
-  clip.loop(1000)
+  
+  //val url = new URL("file:///Users/axel/workspace/phuksiletka/music/juna_kulkee.wav")
+//  val audioIn = AudioSystem.getAudioInputStream(url)
+//  val clip = AudioSystem.getClip
+//  clip.open(audioIn)
+//  clip.loop(1000)
   val width = 20
   val height = 10
   val cellSize = 50
@@ -53,7 +53,7 @@ object View extends SimpleSwingApplication {
       }
       g.setColor(Color.ORANGE) // Set color for the player to be drawn
       g.fillOval(player.x * 50, player.y * 50, 50, 50) // Draw player to its location
-      g.setColor(Color.GRAY)
+     // g.setColor(Color.GRAY)
     }
   }
  
