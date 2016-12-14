@@ -17,10 +17,11 @@ import java.awt.event.KeyEvent._
 import java.io.File
 
 object View extends SimpleSwingApplication {
+  var x = ""
   val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   val clip = AudioSystem.getClip
   clip.open(audioIn)
-  clip.loop(1000)
+  clip.loop(Clip.LOOP_CONTINUOUSLY)
   val width = 20
   val height = 10
   val cellSize = 50
