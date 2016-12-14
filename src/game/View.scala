@@ -32,6 +32,7 @@ class Window extends PApplet {
   }
   override def draw() = {
     background(250);
+    drawScoreboard();
   }
   def drawScoreboard(){
   // All of the scode for code and title
