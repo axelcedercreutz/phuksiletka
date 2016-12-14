@@ -24,38 +24,60 @@ object Window {
 }
 
 class Window extends PApplet {
-  private val windowHeight = 1200
-  private val windowWidth = 800
+  private val windowHeight = 1000
+  private val windowWidth = 600
   private val highScore = 0
   private val game = new Game(windowHeight, windowWidth)
   override def settings() = {
     size(game.height, game.width)
   }
+  override def setup(){
+    frameRate(14); 
+//    var test = new snake();
+//    var food1 = new food();
+    //rectMode(CENTER);
+    //textAlign(CENTER,CENTER)
+}
   override def draw() = {
     background(250);
     drawScoreboard();
   }
   def drawScoreboard(){
-  // All of the scode for code and title
+    
+    // All of the scode for code and title
     fill(250, 0, 250);
     textSize(65);
-    text( "PHUKSILETKA!", width/2, 80);
-    fill(250, 0, 250);
-    textSize(20);
-    
+    text( "PHUKSILETKA!", windowWidth/2, 80);
     
     // draw scoreboard
     stroke(179, 140, 198);
-    fill(255, 0 ,255);
-    rect(90, 70, 160, 80);
     fill(118, 22, 167);
     textSize(17);
-    text( "Score: "/* + test.len*/, 70, 50);
-    
+    text( "Score: "/*+ test.len*/, 70, 50);
     fill(118, 22, 167);
     textSize(17);
     text( "High Score: "+ highScore, 70, 70);
   }
+  override def keyPressed(){
+  key match {
+    case 'q'  => {
+      println("test")
+    }
+    case KeyEvent.VK_LEFT => {
+      println("testLEft")
+    }
+    case KeyEvent.VK_RIGHT => {
+      println("testRight")
+    }
+    case KeyEvent.VK_UP => {
+      println("testUp")
+    }
+    case KeyEvent.VK_DOWN => {
+      println("down")
+    }
+    case _ => {}
+  }
+}
 }
 
 //  val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
