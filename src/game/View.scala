@@ -16,7 +16,7 @@ import scala.io.Source
 import java.awt.Color
 import java.awt.event.KeyEvent._
 import java.io.File
-//import processing.core._
+
 
 
 object View extends SimpleSwingApplication {
