@@ -75,6 +75,12 @@ class Window extends PApplet {
     case 's' => {
       println("down")
     }
+    case 'm' => {
+      println("mute")
+    }
+    case 'b' => {
+      println("background music gone")
+    }
     case _ => {}
   }
 }
