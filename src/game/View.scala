@@ -14,10 +14,10 @@ import javax.sound.sampled._
 import scala.io.Source
 import java.awt.Color
 import java.awt.event.KeyEvent._
+import java.io.File
 
 object View extends SimpleSwingApplication {
-  val url = new URL("file:///Users/axel/workspace/phuksiletka/music/juna_kulkee.wav")
-  val audioIn = AudioSystem.getAudioInputStream(url)
+  val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   val clip = AudioSystem.getClip
   clip.open(audioIn)
   clip.loop(1000)
