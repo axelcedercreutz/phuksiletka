@@ -21,6 +21,7 @@ class Window extends PApplet {
   private val game = new Game(blockSize, blockSize)
   private val test = new Snake(blockSize);
   private var gameTrue = false
+  private var helpTrue = false
   
   override def settings() = {
     size(windowHeight * blockSize, windowWidth * blockSize)
@@ -35,15 +36,18 @@ class Window extends PApplet {
   }
   override def draw() = {
     background(250)
-    if(!gameTrue) {
+    if(!gameTrue && !helpTrue) {
       firstScreen()
+    }
+    else if(helpTrue) {
+      helpScreen()
     }
     else {
       gameScreen()
     }
 
   }
-  def drawScoreboard() {
+  private def drawScoreboard() {
     
     // draw scoreboard
     stroke(179, 140, 198);
@@ -54,15 +58,20 @@ class Window extends PApplet {
     textSize(17);
     text( "High Score: "+ highScore, 70, 70);
   }
-  def drawFirstScreen() {
+  private def drawFirstScreen() {
     fill(250, 0, 250);
     textSize(65);
     text( "PHUKSILETKA!", (windowWidth * blockSize)/2, 80);
     fill(118, 22, 167);
     textSize(17);
-    text( "Start playing by pressing SHIFT!", (windowWidth * blockSize)/2, 300);
-    text( "For help, press H", (windowWidth * blockSize)/2, 350);
+    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 300);
+    text( "Mikäli tarvitset ohjeita, paina H", (windowWidth * blockSize)/2, 350);
     //background(new File(
+  }
+  private def drawHelpScreen() {
+    text("Yritä kerätä mahdollisimman monta viinaa, kerätyt viinat keräävät sinulle kavereita mukaan!", (windowWidth * blockSize)/2, 260)
+    text( "Liiku käyttämällä nuolinäppäimiä", (windowWidth * blockSize)/2, 300)
+    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 340)
   }
   def firstScreen() {
     drawFirstScreen()
@@ -71,11 +80,15 @@ class Window extends PApplet {
   def gameScreen() {
     drawScoreboard()
   }
+  def helpScreen() {
+    drawHelpScreen()
+  }
   override def keyPressed(){
     keyCode match {
       //q
       case 81  => {
         gameTrue = false
+        helpTrue = false
         println("back to home page")
       }
       case PConstants.LEFT => {
@@ -99,6 +112,7 @@ class Window extends PApplet {
         println("background music gone")
       }
       case 72 => {
+        helpTrue = true
         println("help")
       }
       case 16 => {
