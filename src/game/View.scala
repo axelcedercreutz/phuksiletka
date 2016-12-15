@@ -2,6 +2,7 @@ package game
 
 import processing.core._
 import scala.collection.mutable.ArrayBuffer
+import scala.util.Random
 import javax.imageio.ImageIO
 import java.net.URL
 import javax.sound.sampled._
@@ -22,14 +23,19 @@ class Window extends PApplet {
   private val snakeY = new ArrayBuffer[Int]()
   snakeX += 20
   snakeY += 12
+  private var appleX = 12
+  private var appleY = 10
   private val dirX = new ArrayBuffer[Int]()
   private val dirY = new ArrayBuffer[Int]()
+  private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
+  private val clip = AudioSystem.getClip
   private val highScore = 0
   private val game = new Game(blockSize, blockSize)
-  private val test = new Snake(blockSize);
   private var gameTrue = false
   private var helpTrue = false
   private var dir = 2
+  private var muted = false
+  private val random = Random                       // random number
   
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
@@ -39,9 +45,6 @@ class Window extends PApplet {
   }
   
   override def setup(){
-    frameRate(60);
-    val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
-    val clip = AudioSystem.getClip
     clip.open(audioIn)
     clip.loop(Clip.LOOP_CONTINUOUSLY)
   }
@@ -50,12 +53,13 @@ class Window extends PApplet {
     if(!gameTrue && !helpTrue) {
       firstScreen()
     }
+    else if (gameTrue){
+      gameScreen()
+    }
     else if(helpTrue) {
       helpScreen()
     }
-    else {
-      gameScreen()
-    }
+    
 
   }
   private def drawFirstScreen() {
@@ -64,14 +68,15 @@ class Window extends PApplet {
     text( "PHUKSILETKA!", (windowWidth * blockSize)/2, 80);
     fill(118, 22, 167);
     textSize(17);
-    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 300);
-    text( "Mikäli tarvitset ohjeita, paina H", (windowWidth * blockSize)/2, 350);
-    //background(new File(
+    text("To play on the easy level, press 1", (windowWidth * blockSize)/2, 260)
+    text("To play on the normal level, press 2", (windowWidth * blockSize)/2, 280)
+    text("To play on the hard level, press 3", (windowWidth * blockSize)/2, 300)
+    text( "Mikäli tarvitset ohjeita, paina H", (windowWidth * blockSize)/2, 400)
   }
   private def drawHelpScreen() {
     text("Yritä kerätä mahdollisimman monta viinaa,\nkerätyt viinat keräävät sinulle kavereita mukaan!", (windowWidth * blockSize)/2, 260)
     text( "Liiku käyttämällä nuolinäppäimiä!", (windowWidth * blockSize)/2, 320)
-    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 350)
+    text( "Aloita painamalla 1,2 tai 3!", (windowWidth * blockSize)/2, 350)
   }
   private def drawScoreboard() {
     // draw scoreboard
@@ -87,12 +92,23 @@ class Window extends PApplet {
     for(i <- 0 until snakeX.size) {
       fill(0,255,0)
       rect(snakeX(i)*blockSize, snakeY(i)*blockSize, blockSize, blockSize)
+      fill(255,0,0)
+      rect(appleX*blockSize,appleY*blockSize, blockSize, blockSize)
     }
     if(frameCount % 10 == 0) {
       snakeX += (snakeX(0) + dirX(dir))
       snakeY += (snakeY(0) + dirY(dir))
+      if(snakeX(0) == appleX && snakeY(0) == appleY) {
+        println("something")
+        appleX = random.nextInt(windowWidth)
+        println(appleX)
+        appleY = random.nextInt(windowHeight/2)
+        println(appleY)
+      }
+      else {
       snakeX.remove(0)
       snakeY.remove(0)
+      }
     }
   }
   def firstScreen() {
@@ -136,7 +152,15 @@ class Window extends PApplet {
       }
       //m
       case 77 => {
-        println("mute")
+        if(!muted) {
+          clip.stop()
+          muted = true
+        }
+        else {
+          clip.loop(Clip.LOOP_CONTINUOUSLY)
+          muted = false
+        }
+        
       }
       //b
       case 66 => {
@@ -144,11 +168,27 @@ class Window extends PApplet {
       }
       case 72 => {
         helpTrue = true
-        println("help")
       }
-      case 16 => {
+//      case 16 => {
+//        gameTrue = true
+//      }
+      case 49 => {
+        if(!gameTrue) {
+          frameRate(80)
+          gameTrue = true
+        }
+      }
+      case 50 => {
+        if(!gameTrue) {
+          frameRate(140)
+          gameTrue = true
+        }
+      }
+      case 51 => {
+        if(!gameTrue) {
+          frameRate(280)
         gameTrue = true
-        println("shift")
+        }
       }
       case _ => {}
     }
