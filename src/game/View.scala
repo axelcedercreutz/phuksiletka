@@ -18,8 +18,8 @@ class Window extends PApplet {
   private val windowHeight = 40
   private val windowWidth = 24
   private val blockSize = 25
-  private val snakeArrayX = new ArrayBuffer[Int]()
-  private val snakeArrayY = new ArrayBuffer[Int]()
+  private val snakeX = new ArrayBuffer[Int]()
+  private val snakeY = new ArrayBuffer[Int]()
   private val highScore = 0
   private val game = new Game(blockSize, blockSize)
   private val test = new Snake(blockSize);
@@ -76,11 +76,16 @@ class Window extends PApplet {
     text( "High Score: "+ highScore, 70, 70);
   }
   private def drawBasicSnake() {
-    snakeArrayX += 5
-    snakeArrayY += 5
-    for(i <- 0 until snakeArrayX.size) {
+    snakeX += 20
+    snakeY += 12
+    snakeX += 20 - 1
+    snakeY += 12
+    for(i <- 0 until snakeX.size) {
       fill(0,255,0)
-      rect(snakeArrayX(i)*blockSize, snakeArrayY(i)*blockSize, blockSize, blockSize)
+      rect(snakeX(i)*blockSize, snakeY(i)*blockSize, blockSize, blockSize)
+    }
+    if(frameCount % 10 == 0) {
+      game.movement()
     }
   }
   def firstScreen() {

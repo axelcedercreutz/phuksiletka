@@ -1,7 +1,6 @@
 package game
 
 import processing.core._
-import javax.swing._
 
 object Snakey {
   def main(args: Array[String]) {
