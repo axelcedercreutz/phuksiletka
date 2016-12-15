@@ -20,18 +20,26 @@ class Window extends PApplet {
   private val blockSize = 25
   private val snakeX = new ArrayBuffer[Int]()
   private val snakeY = new ArrayBuffer[Int]()
+  snakeX += 20
+  snakeY += 12
+  private val dirX = new ArrayBuffer[Int]()
+  private val dirY = new ArrayBuffer[Int]()
   private val highScore = 0
   private val game = new Game(blockSize, blockSize)
   private val test = new Snake(blockSize);
   private var gameTrue = false
   private var helpTrue = false
+  private var dir = 2
+  
+  dirX += (0,0,1,-1)
+  dirY += (1,-1,0,0)
   
   override def settings() = {
     size(windowHeight * blockSize, windowWidth * blockSize)
   }
   
   override def setup(){
-    frameRate(10); 
+    frameRate(60);
     val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
     val clip = AudioSystem.getClip
     clip.open(audioIn)
@@ -76,16 +84,15 @@ class Window extends PApplet {
     text( "High Score: "+ highScore, 70, 70);
   }
   private def drawBasicSnake() {
-    snakeX += 20
-    snakeY += 12
-    snakeX += 20 - 1
-    snakeY += 12
     for(i <- 0 until snakeX.size) {
       fill(0,255,0)
       rect(snakeX(i)*blockSize, snakeY(i)*blockSize, blockSize, blockSize)
     }
     if(frameCount % 10 == 0) {
-      game.movement()
+      snakeX += (snakeX(0) + dirX(dir))
+      snakeY += (snakeY(0) + dirY(dir))
+      snakeX.remove(0)
+      snakeY.remove(0)
     }
   }
   def firstScreen() {
