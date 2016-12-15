@@ -1,20 +1,10 @@
 package game
 
 import processing.core._
-import java.awt._
-import java.awt.event._
-import java.util.Scanner
 import javax.imageio.ImageIO
-import javax.swing._
-import scala.collection.mutable.ArrayBuffer
-import scala.swing._
-import scala.swing.event._
-import java.awt.event.{ActionEvent,ActionListener,KeyListener,KeyEvent}
 import java.net.URL
 import javax.sound.sampled._
 import scala.io.Source
-import java.awt.Color
-import java.awt.event.KeyEvent._
 import java.io.File
 
 object Window {
@@ -24,69 +14,98 @@ object Window {
 }
 
 class Window extends PApplet {
-  private val windowHeight = 1000
-  private val windowWidth = 600
+  private val windowHeight = 20
+  private val windowWidth = 12
+  private val blockSize = 50
   private val highScore = 0
-  private val game = new Game(windowHeight, windowWidth)
+  private val game = new Game(blockSize, blockSize)
+  private val test = new Snake(blockSize);
+  private var gameTrue = false
+  
   override def settings() = {
-    size(game.height, game.width)
+    size(windowHeight * blockSize, windowWidth * blockSize)
   }
+  
   override def setup(){
-    frameRate(14); 
-//    var test = new snake();
-//    var food1 = new food();
-    //rectMode(CENTER);
-    //textAlign(CENTER,CENTER)
-}
-  override def draw() = {
-    background(250);
-    drawScoreboard();
+    frameRate(10); 
+    val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
+    val clip = AudioSystem.getClip
+    clip.open(audioIn)
+    clip.loop(Clip.LOOP_CONTINUOUSLY)
   }
-  def drawScoreboard(){
-    
-    // All of the scode for code and title
-    fill(250, 0, 250);
-    textSize(65);
-    text( "PHUKSILETKA!", windowWidth/2, 80);
+  override def draw() = {
+    background(250)
+    if(!gameTrue) {
+      firstScreen()
+    }
+    else {
+      gameScreen()
+    }
+
+  }
+  def drawScoreboard() {
     
     // draw scoreboard
     stroke(179, 140, 198);
     fill(118, 22, 167);
     textSize(17);
-    text( "Score: "/*+ test.len*/, 70, 50);
+    text( "Score: " + game.score, 70, 50);
     fill(118, 22, 167);
     textSize(17);
     text( "High Score: "+ highScore, 70, 70);
   }
+  def drawFirstScreen() {
+    fill(250, 0, 250);
+    textSize(65);
+    text( "PHUKSILETKA!", (windowWidth * blockSize)/2, 80);
+    fill(118, 22, 167);
+    textSize(17);
+    text( "Start playing by pressing SHIFT!", (windowWidth * blockSize)/2, 300);
+    text( "For help, press H", (windowWidth * blockSize)/2, 350);
+    //background(new File(
+  }
+  def firstScreen() {
+    drawFirstScreen()
+    
+  }
+  def gameScreen() {
+    drawScoreboard()
+  }
   override def keyPressed(){
-  key match {
-    case 'q'  => {
-      println("test")
+    keyCode match {
+      //q
+      case 81  => {
+        gameTrue = false
+        println("back to home page")
+      }
+      case PConstants.LEFT => {
+        println("testLEft")
+      }
+      case PConstants.RIGHT => {
+        println("testRight")
+      }
+      case PConstants.UP => {
+        println("testUp")
+      }
+      case PConstants.DOWN => {
+        println("down")
+      }
+      //m
+      case 77 => {
+        println("mute")
+      }
+      //b
+      case 66 => {
+        println("background music gone")
+      }
+      case 72 => {
+        println("help")
+      }
+      case 16 => {
+        gameTrue = true
+        println("shift")
+      }
+      case _ => {}
     }
-    case 'a' => {
-      println("testLEft")
-    }
-    case 'd' => {
-      println("testRight")
-    }
-    case 'w' => {
-      println("testUp")
-    }
-    case 's' => {
-      println("down")
-    }
-    case 'm' => {
-      println("mute")
-    }
-    case 'b' => {
-      println("background music gone")
-    }
-    case _ => {}
   }
 }
-}
-
-//  val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
-//  val clip = AudioSystem.getClip
-//  clip.open(audioIn)
-//  clip.loop(Clip.LOOP_CONTINUOUSLY)
