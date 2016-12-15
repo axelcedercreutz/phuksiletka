@@ -1,6 +1,7 @@
 package game
 
 import processing.core._
+import scala.collection.mutable.ArrayBuffer
 import javax.imageio.ImageIO
 import java.net.URL
 import javax.sound.sampled._
@@ -14,9 +15,11 @@ object Window {
 }
 
 class Window extends PApplet {
-  private val windowHeight = 20
-  private val windowWidth = 12
-  private val blockSize = 50
+  private val windowHeight = 40
+  private val windowWidth = 24
+  private val blockSize = 25
+  private val snakeArrayX = new ArrayBuffer[Int]()
+  private val snakeArrayY = new ArrayBuffer[Int]()
   private val highScore = 0
   private val game = new Game(blockSize, blockSize)
   private val test = new Snake(blockSize);
@@ -47,17 +50,6 @@ class Window extends PApplet {
     }
 
   }
-  private def drawScoreboard() {
-    
-    // draw scoreboard
-    stroke(179, 140, 198);
-    fill(118, 22, 167);
-    textSize(17);
-    text( "Score: " + game.score, 70, 50);
-    fill(118, 22, 167);
-    textSize(17);
-    text( "High Score: "+ highScore, 70, 70);
-  }
   private def drawFirstScreen() {
     fill(250, 0, 250);
     textSize(65);
@@ -73,12 +65,31 @@ class Window extends PApplet {
     text( "Liiku käyttämällä nuolinäppäimiä", (windowWidth * blockSize)/2, 300)
     text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 340)
   }
+  private def drawScoreboard() {
+    // draw scoreboard
+    stroke(179, 140, 198);
+    fill(118, 22, 167);
+    textSize(17);
+    text( "Score: " + game.score, 70, 50);
+    fill(118, 22, 167);
+    textSize(17);
+    text( "High Score: "+ highScore, 70, 70);
+  }
+  private def drawBasicSnake() {
+    snakeArrayX += 5
+    snakeArrayY += 5
+    for(i <- 0 until snakeArrayX.size) {
+      fill(0,255,0)
+      rect(snakeArrayX(i)*blockSize, snakeArrayY(i)*blockSize, blockSize, blockSize)
+    }
+  }
   def firstScreen() {
     drawFirstScreen()
     
   }
   def gameScreen() {
     drawScoreboard()
+    drawBasicSnake()
   }
   def helpScreen() {
     drawHelpScreen()
