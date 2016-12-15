@@ -69,9 +69,9 @@ class Window extends PApplet {
     //background(new File(
   }
   private def drawHelpScreen() {
-    text("Yritä kerätä mahdollisimman monta viinaa, kerätyt viinat keräävät sinulle kavereita mukaan!", (windowWidth * blockSize)/2, 260)
-    text( "Liiku käyttämällä nuolinäppäimiä", (windowWidth * blockSize)/2, 300)
-    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 340)
+    text("Yritä kerätä mahdollisimman monta viinaa,\nkerätyt viinat keräävät sinulle kavereita mukaan!", (windowWidth * blockSize)/2, 260)
+    text( "Liiku käyttämällä nuolinäppäimiä!", (windowWidth * blockSize)/2, 320)
+    text( "Aloita painamalla SHIFT!", (windowWidth * blockSize)/2, 350)
   }
   private def drawScoreboard() {
     // draw scoreboard
@@ -115,16 +115,24 @@ class Window extends PApplet {
         println("back to home page")
       }
       case PConstants.LEFT => {
-        println("testLEft")
+        if(dir == 0 || dir == 1) {
+          dir = 3
+        }
       }
       case PConstants.RIGHT => {
-        println("testRight")
+        if(dir == 0 || dir == 1) {
+          dir = 2
+        }
       }
       case PConstants.UP => {
-        println("testUp")
+        if(dir == 2 || dir == 3) {
+          dir = 1
+        }
       }
       case PConstants.DOWN => {
-        println("down")
+        if(dir == 2 || dir == 3) {
+          dir = 0
+        }
       }
       //m
       case 77 => {
