@@ -29,10 +29,11 @@ class Window extends PApplet {
   private val dirY = new ArrayBuffer[Int]()
   private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val clip = AudioSystem.getClip
-  private val highScore = 0
+  private var highScore = 0
   private val game = new Game(blockSize, blockSize)
   private var gameTrue = false
   private var helpTrue = false
+  private var gameOver = false
   private var dir = 2
   private var muted = false
   private val random = Random                       // random number
@@ -83,7 +84,7 @@ class Window extends PApplet {
     stroke(179, 140, 198);
     fill(118, 22, 167);
     textSize(17);
-    text( "Score: " + game.score, 70, 50);
+    text( "Score: " + (snakeX.size - 1), 70, 50);
     fill(118, 22, 167);
     textSize(17);
     text( "High Score: "+ highScore, 70, 70);
@@ -92,23 +93,36 @@ class Window extends PApplet {
     for(i <- 0 until snakeX.size) {
       fill(0,255,0)
       rect(snakeX(i)*blockSize, snakeY(i)*blockSize, blockSize, blockSize)
+    }
+    if(!gameOver) {
       fill(255,0,0)
       rect(appleX*blockSize,appleY*blockSize, blockSize, blockSize)
+      if(frameCount % 10 == 0) {
+        snakeX.prepend(snakeX(0) + dirX(dir))
+        snakeY.prepend(snakeY(0) + dirY(dir))
+        for(i <- 1 until snakeX.size) {
+          if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
+        }
+        if(snakeX(0) == appleX && snakeY(0) == appleY) {
+          println("something")
+          appleX = random.nextInt(windowWidth)
+          println(appleX)
+          appleY = random.nextInt(windowHeight/2)
+          println(appleY)
+        }
+        else {
+        snakeX.remove(snakeX.size - 1)
+        snakeY.remove(snakeY.size - 1)
+        }
+      }
     }
-    if(frameCount % 10 == 0) {
-      snakeX += (snakeX(0) + dirX(dir))
-      snakeY += (snakeY(0) + dirY(dir))
-      if(snakeX(0) == appleX && snakeY(0) == appleY) {
-        println("something")
-        appleX = random.nextInt(windowWidth)
-        println(appleX)
-        appleY = random.nextInt(windowHeight/2)
-        println(appleY)
+    else {
+      if((snakeX.size - 1) > highScore) {
+        highScore = snakeX.size - 1
       }
-      else {
-      snakeX.remove(0)
-      snakeY.remove(0)
-      }
+      fill (0)
+      textSize(30)
+      text("Game over! \nPress SHIFT to start new game on the same level \nq to go back to the main menu",(windowWidth * blockSize)/2,windowHeight/2)
     }
   }
   def firstScreen() {
@@ -126,6 +140,9 @@ class Window extends PApplet {
     keyCode match {
       //q
       case 81  => {
+        gameOver = false
+        snakeX.clear
+        snakeY.clear
         gameTrue = false
         helpTrue = false
         println("back to home page")
@@ -166,30 +183,47 @@ class Window extends PApplet {
       case 66 => {
         println("background music gone")
       }
+      //h
       case 72 => {
         helpTrue = true
       }
-//      case 16 => {
-//        gameTrue = true
-//      }
+      //shift
+      case 16 => {
+        gameOver = false
+        snakeX.clear
+        snakeY.clear
+        snakeX += 20
+        snakeY += 12
+        gameTrue = true
+      }
+      //1
       case 49 => {
         if(!gameTrue) {
           frameRate(80)
+          snakeX += 20
+          snakeY += 12
           gameTrue = true
         }
       }
+      //2
       case 50 => {
         if(!gameTrue) {
           frameRate(140)
+          snakeX += 20
+          snakeY += 12
           gameTrue = true
         }
       }
+      //3
       case 51 => {
         if(!gameTrue) {
           frameRate(280)
-        gameTrue = true
+          snakeX += 20
+          snakeY += 12
+          gameTrue = true
         }
       }
+      //any other
       case _ => {}
     }
   }
