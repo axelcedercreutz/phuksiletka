@@ -122,7 +122,7 @@ class Window extends PApplet {
       }
       fill (0)
       textSize(30)
-      text("Game over! \nPress SHIFT to start new game on the same level \nq to go back to the main menu",(windowWidth * blockSize)/2,windowHeight/2)
+      text("Game over! \nPress SHIFT to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)
     }
   }
   def firstScreen() {
