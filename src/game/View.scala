@@ -60,8 +60,6 @@ class Window extends PApplet {
     else if(helpTrue) {
       helpScreen()
     }
-    
-
   }
   private def drawFirstScreen() {
     fill(250, 0, 250);
@@ -104,11 +102,8 @@ class Window extends PApplet {
           if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
         }
         if(snakeX(0) == appleX && snakeY(0) == appleY) {
-          println("something")
           appleX = random.nextInt(windowWidth)
-          println(appleX)
           appleY = random.nextInt(windowHeight/2)
-          println(appleY)
         }
         else {
         snakeX.remove(snakeX.size - 1)
@@ -145,7 +140,6 @@ class Window extends PApplet {
         snakeY.clear
         gameTrue = false
         helpTrue = false
-        println("back to home page")
       }
       case PConstants.LEFT => {
         if(dir == 0 || dir == 1) {
