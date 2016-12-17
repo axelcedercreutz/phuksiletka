@@ -8,6 +8,7 @@ import java.net.URL
 import javax.sound.sampled._
 import scala.io.Source
 import java.io.File
+import scala.math._
 
 object Window {
   def main(args: Array[String]) {
@@ -96,8 +97,18 @@ class Window extends PApplet {
       fill(255,0,0)
       rect(appleX*blockSize,appleY*blockSize, blockSize, blockSize)
       if(frameCount % 10 == 0) {
-        snakeX.prepend(snakeX(0) + dirX(dir))
-        snakeY.prepend(snakeY(0) + dirY(dir))
+        if(snakeX(0) + dirX(dir) < 0) {
+          snakeX.prepend(windowHeight)
+          snakeY.prepend(snakeY(0) + dirY(dir))
+        }
+        else if(snakeY(0) + dirY(dir) < 0) {
+          snakeX.prepend(snakeX(0) + dirX(dir))
+          snakeY.prepend(windowWidth)
+        }
+        else {
+          snakeX.prepend((snakeX(0) + dirX(dir)) % windowHeight)
+          snakeY.prepend((snakeY(0) + dirY(dir)) % windowWidth)
+        }
         for(i <- 1 until snakeX.size) {
           if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
         }
