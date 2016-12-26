@@ -95,11 +95,11 @@ class Window extends PApplet {
       if(frameCount % 2 == 0) {
         game.moveSnake()
       }
-      //if(frameCount % 100 > 50 && frameCount % 100 < 80) {
+      if(frameCount % 100 > 50 && frameCount % 100 < 80) {
         fill(0,255,255)
         rect(game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
         game.powerUps()
-      //}        
+      }        
     }
     else {
       fill (0)

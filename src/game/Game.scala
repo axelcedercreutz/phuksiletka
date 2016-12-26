@@ -84,6 +84,7 @@ class Game(val width: Int, val height: Int) {
         snakeX.append((snakeX(snakeX.size -1) + dirX(dir))*2 % width,(snakeX(snakeX.size -1) + dirX(dir)) % width)
         snakeY.append((snakeY(snakeY.size -1) + dirY(dir))*2 % height,(snakeY(snakeY.size -1) + dirY(dir)) % height)
       }
+      powerUp.next = powerUp.random.nextInt(4)
       powerUpX = random.nextInt(width)
       powerUpY = random.nextInt(height)
     }
