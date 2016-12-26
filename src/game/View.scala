@@ -25,7 +25,7 @@ class Window extends PApplet {
   private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
   private var gameTrue = false
   private var helpTrue = false
-  private var dir = game.dir
+  
   
   override def settings() = {
     size(windowWidth * blockSize, windowHeight * blockSize)
@@ -75,27 +75,18 @@ class Window extends PApplet {
   private def drawBasicSnake() {
     for(i <- 0 until game.snakeX.size) {
       fill(0,255,0)
-      rect(game.snakeX(i)*blockSize,game.snakeY(i)*blockSize, blockSize, blockSize)
+      rect(game.snakeX(i) * blockSize,game.snakeY(i) * blockSize, blockSize, blockSize)
     }
     if(!game.gameOver) {
       fill(255,0,0)
-      rect(game.appleX*blockSize,game.appleY*blockSize, blockSize, blockSize)
+      rect(game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
       if(frameCount % 10 == 0) {
         game.moveSnake()
       }
       if(frameCount % 1000 > 500 && frameCount % 1000 < 800) {
         fill(0,255,255)
-        rect(game.powerUpX*blockSize,game.powerUpY*blockSize, blockSize, blockSize)
-        game.powerUp.effects()
-//        if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
-//          for(i <- 0 until snakeX.size) {
-//            if(powerUpX == snakeX(i) || powerUpY == snakeY(i)) {
-//              powerUpX = game.nextX
-//              powerUpY = game.nextY
-//            }
-//          }
-//        }
-//        return
+        rect(game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
+        game.powerUps()
       }        
     }
     else {
@@ -121,8 +112,7 @@ class Window extends PApplet {
       case 81  => {
         music.stop()
         game.gameOver = false
-        game.snakeX.clear
-        game.snakeY.clear
+        game.clear()
         gameTrue = false
         helpTrue = false
       }
@@ -146,7 +136,7 @@ class Window extends PApplet {
           game.dir = 0
         }
       }
-      //m
+      //m 
       case 77 => {
         music.stop() 
       }
@@ -161,10 +151,8 @@ class Window extends PApplet {
       //shift
       case 16 => {
         game.gameOver = false
-        game.snakeX.clear
-        game.snakeY.clear
-        game.snakeX += 20
-        game.snakeY += 12
+        game.clear()
+        game.start()
         gameTrue = true
       }
       //1
@@ -173,8 +161,7 @@ class Window extends PApplet {
           music.play(junaKulkee)
           game.gameLevel = 1
           frameRate(80)
-          game.snakeX += 20
-          game.snakeY += 12
+          game.start()
           gameTrue = true
         }
       }
@@ -184,8 +171,7 @@ class Window extends PApplet {
           music.play(junaKulkee)
           game.gameLevel = 2
           frameRate(140)
-          game.snakeX += 20
-          game.snakeY += 12
+          game.start()
           gameTrue = true
         }
       }
@@ -195,8 +181,7 @@ class Window extends PApplet {
           music.play(junaKulkee)
           game.gameLevel = 3
           frameRate(280)
-          game.snakeX += 20
-          game.snakeY += 12
+          game.start()
           gameTrue = true
         }
       }

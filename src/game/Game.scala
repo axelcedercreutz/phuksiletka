@@ -62,6 +62,25 @@ class Game(val width: Int, val height: Int) {
     }
   }
   
+  def powerUps() = {
+    if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
+      powerUp.effects()
+      powerUpX = random.nextInt(width)
+      powerUpY = random.nextInt(height)
+    }
+  }
+  
+  
+  def clear() = {
+    snakeX.clear
+    snakeY.clear
+  }
+  
+  def start() = {
+    snakeX += 20
+    snakeY += 12
+  }
+  
   def correctHighScore(level: Int) = {
     if(level == 3) {
       highScoreHard

@@ -9,20 +9,24 @@ class PowerUp(width: Int, height: Int) {
   var powerUpY = 10
   
   private val random = Random
-  private val next = random.nextInt(4)
+  private var next = random.nextInt(4)
   
   def effects() = {
     if(next == 0) {
-      "speed up"
+      println("speed up")
+      next = random.nextInt(4)
     }
     else if(next == 1) {
-      "slow down"
+      println("slow down")
+      next = random.nextInt(4)
     }
     else if(next == 2) {
-      "cut length"
+      println("cut length")
+      next = random.nextInt(4)
     }
     else if(next == 3) {
-      "add length"
+      println("add length")
+      next = random.nextInt(4)
     }
   }
 }
