@@ -2,11 +2,8 @@ package game
 
 import processing.core._
 import scala.collection.mutable.ArrayBuffer
-import scala.util.Random
 import javax.imageio.ImageIO
-import java.net.URL
 import javax.sound.sampled._
-import scala.io.Source
 import java.io.File
 import scala.math._
 
@@ -33,15 +30,14 @@ class Window extends PApplet {
   private val dirY = new ArrayBuffer[Int]()
   private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val clip = AudioSystem.getClip
-  private val game = new Game(blockSize, blockSize)
-  //private var highScore = game.correctHighScore(gameLevel)
+  private val game = new Game(windowWidth, windowHeight)
+  private val powerUp = new powerUp(windowWidth,windowHeight)
   private val Fruit = new Fruit(windowWidth, windowHeight)
   private var gameTrue = false
   private var helpTrue = false
   private var gameOver = false
   private var dir = 2
   private var muted = false
-  private val random = Random                       // random number
   
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
@@ -117,8 +113,6 @@ class Window extends PApplet {
           if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
         }
         if(snakeX(0) == appleX && snakeY(0) == appleY) {
-          appleX = Fruit.nextX
-          appleY = Fruit.nextY
           for(i <- 0 until snakeX.size) {
             if(appleX == snakeX(i) || appleY == snakeY(i)) {
               appleX = Fruit.nextX
@@ -131,11 +125,23 @@ class Window extends PApplet {
         snakeY.remove(snakeY.size - 1)
         }
       }
+      if(frameCount % 1000 > 500 && frameCount % 1000 < 800) {
+        fill(0,255,255)
+        rect(powerUpX*blockSize,powerUpY*blockSize, blockSize, blockSize)
+        powerUp.effects()
+        if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
+          for(i <- 0 until snakeX.size) {
+            if(powerUpX == snakeX(i) || powerUpY == snakeY(i)) {
+              powerUpX = Fruit.nextX
+              powerUpY = Fruit.nextY
+            }
+          }
+        }
+        return
+      }
       if((snakeX.size - 1) > game.correctHighScore(gameLevel)) {
         game.newHighScore(gameLevel, snakeX.size - 1)
-      }
-//        fill(0,255,255)
-//        rect(powerUpX*blockSize,powerUpY*blockSize, blockSize, blockSize)
+      }      
     }
     else {
       fill (0)

@@ -2,9 +2,7 @@ package game
 
 import processing.core._
 
-class Game(Height: Int, Width: Int) {
-  val height = Height
-  val width = Width
+class Game(val width: Int, val height: Int) {
   var highScoreEasy = 0
   var highScoreNormal = 0
   var highScoreHard = 0
