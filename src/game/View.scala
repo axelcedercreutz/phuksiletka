@@ -73,6 +73,18 @@ class Window extends PApplet {
     text( "High Score: "+ game.correctHighScore(game.gameLevel), 70, 70);
   }
   private def drawBasicSnake() {
+    if(game.gameLevel == 4) {
+      frameRate(60)
+    }
+    else if(game.gameLevel == 3) {
+      frameRate(50)
+    }
+    else if(game.gameLevel == 2) {
+      frameRate(30)
+    }
+    else {
+      frameRate(20)
+    }
     for(i <- 0 until game.snakeX.size) {
       fill(0,255,0)
       rect(game.snakeX(i) * blockSize,game.snakeY(i) * blockSize, blockSize, blockSize)
@@ -80,13 +92,15 @@ class Window extends PApplet {
     if(!game.gameOver) {
       fill(255,0,0)
       rect(game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
-      if(frameCount % 10 == 0) {
+      if(frameCount % 2 == 0) {
         game.moveSnake()
       }
-      if(frameCount % 1000 > 500 && frameCount % 1000 < 800) {
+      if(frameCount % 100 > 50 && frameCount % 100 < 80) {
         fill(0,255,255)
         rect(game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
         game.powerUps()
+        println(frameRate)
+        println(game.gameLevel)
       }        
     }
     else {
@@ -160,7 +174,6 @@ class Window extends PApplet {
         if(!gameTrue) {
           music.play(junaKulkee)
           game.gameLevel = 1
-          frameRate(80)
           game.start()
           gameTrue = true
         }
@@ -170,7 +183,6 @@ class Window extends PApplet {
         if(!gameTrue) {
           music.play(junaKulkee)
           game.gameLevel = 2
-          frameRate(140)
           game.start()
           gameTrue = true
         }
@@ -180,7 +192,6 @@ class Window extends PApplet {
         if(!gameTrue) {
           music.play(junaKulkee)
           game.gameLevel = 3
-          frameRate(280)
           game.start()
           gameTrue = true
         }

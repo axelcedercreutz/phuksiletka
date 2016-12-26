@@ -64,7 +64,16 @@ class Game(val width: Int, val height: Int) {
   
   def powerUps() = {
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
-      powerUp.effects()
+      if(powerUp.effects() == "speed up") {
+        if(gameLevel < 4) {
+          gameLevel += 1
+        }
+      }
+      else if(powerUp.effects() == "slow down") {
+        if(gameLevel > 1) {
+          gameLevel -= 1
+        }
+      }
       powerUpX = random.nextInt(width)
       powerUpY = random.nextInt(height)
     }

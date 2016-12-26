@@ -4,7 +4,7 @@ import scala.util.Random
 import processing.core._
 
 class PowerUp(width: Int, height: Int) {
-  
+  //private val game = new Game(width, height)
   var powerUpX = 10
   var powerUpY = 10
   
@@ -13,20 +13,20 @@ class PowerUp(width: Int, height: Int) {
   
   def effects() = {
     if(next == 0) {
-      println("speed up")
       next = random.nextInt(4)
+      "speed up"
     }
     else if(next == 1) {
-      println("slow down")
       next = random.nextInt(4)
+      "slow down"
     }
     else if(next == 2) {
-      println("cut length")
       next = random.nextInt(4)
+      "cut length"
     }
     else if(next == 3) {
-      println("add length")
       next = random.nextInt(4)
+      "add length"
     }
   }
 }
