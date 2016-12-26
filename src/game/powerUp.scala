@@ -4,6 +4,10 @@ import scala.util.Random
 import processing.core._
 
 class PowerUp(width: Int, height: Int) {
+  
+  var powerUpX = 10
+  var powerUpY = 10
+  
   private val random = Random
   private val next = random.nextInt(4)
   
