@@ -67,23 +67,23 @@ class Window extends PApplet {
     stroke(179, 140, 198);
     fill(118, 22, 167);
     textSize(17);
-    text( "Score: " + (game.snakeX.size - 1), 70, 50);
+    text( "Score: " + game.count, 70, 50);
     fill(118, 22, 167);
     textSize(17);
-    text( "High Score: "+ game.correctHighScore(game.gameLevel), 70, 70);
+    text( "High Score: "+ game.correctHighScore(), 70, 70);
   }
   private def drawBasicSnake() {
     if(game.gameLevel == 4) {
       frameRate(60)
     }
     else if(game.gameLevel == 3) {
-      frameRate(50)
+      frameRate(45)
     }
     else if(game.gameLevel == 2) {
       frameRate(30)
     }
     else {
-      frameRate(20)
+      frameRate(15)
     }
     for(i <- 0 until game.snakeX.size) {
       fill(0,255,0)
@@ -104,7 +104,7 @@ class Window extends PApplet {
     else {
       fill (0)
       textSize(30)
-      text("Game over! \nPress SHIFT to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)
+      text("Game over! \nPress Enter to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)
     }
   }
   def firstScreen() {
@@ -160,19 +160,18 @@ class Window extends PApplet {
       case 72 => {
         helpTrue = true
       }
-      //shift
+      //SHIFT
       case 16 => {
         game.gameOver = false
         game.clear()
-        game.start()
+        game.start(game.originalLevel)
         gameTrue = true
       }
       //1
       case 49 => {
         if(!gameTrue) {
           music.play(junaKulkee)
-          game.gameLevel = 1
-          game.start()
+          game.start(1)
           gameTrue = true
         }
       }
@@ -180,8 +179,7 @@ class Window extends PApplet {
       case 50 => {
         if(!gameTrue) {
           music.play(junaKulkee)
-          game.gameLevel = 2
-          game.start()
+          game.start(2)
           gameTrue = true
         }
       }
@@ -189,8 +187,7 @@ class Window extends PApplet {
       case 51 => {
         if(!gameTrue) {
           music.play(junaKulkee)
-          game.gameLevel = 3
-          game.start()
+          game.start(3)
           gameTrue = true
         }
       }

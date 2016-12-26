@@ -7,7 +7,7 @@ class Game(val width: Int, val height: Int) {
   
   val powerUp = new PowerUp(width,height)
   private val fruit = new Fruit(width, height)
-  private val random = Random // random number 
+  private val random = Random // random number
   val snakeX = new ArrayBuffer[Int]()
   val snakeY = new ArrayBuffer[Int]()
   val dirX = new ArrayBuffer[Int]()
@@ -20,16 +20,18 @@ class Game(val width: Int, val height: Int) {
   var powerUpY = powerUp.powerUpY
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
-  snakeX += 20
-  snakeY += 12
   var gameLevel = 1
-  
-  
+  var originalLevel = 0
+  var count = 0
   var highScoreEasy = 0
   var highScoreNormal = 0
   var highScoreHard = 0
   
   def moveSnake() = {
+    println(count)
+    println(gameLevel)
+    println(originalLevel)
+    println(highScoreNormal)
     if(snakeX(0) + dirX(dir) < 0) {
       snakeX.prepend(width)
       snakeY.prepend(snakeY(0) + dirY(dir))
@@ -46,6 +48,7 @@ class Game(val width: Int, val height: Int) {
       if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
     }
     if(snakeX(0) == appleX && snakeY(0) == appleY) {
+      count += 1
       for(i <- 0 until snakeX.size) {
         if(appleX == snakeX(i) || appleY == snakeY(i)) {
           appleX = random.nextInt(width)
@@ -57,8 +60,8 @@ class Game(val width: Int, val height: Int) {
       snakeX.remove(snakeX.size - 1)
       snakeY.remove(snakeY.size - 1)
     }
-    if((snakeX.size - 1) > correctHighScore(gameLevel)) {
-        newHighScore(gameLevel, snakeX.size - 1)
+    if((snakeX.size - 1) > correctHighScore()) {
+        newHighScore()
     }
   }
   
@@ -92,20 +95,23 @@ class Game(val width: Int, val height: Int) {
   
   
   def clear() = {
+    count = 0
     snakeX.clear
     snakeY.clear
   }
   
-  def start() = {
+  def start(level: Int) = {
+    gameLevel = level
+    originalLevel = gameLevel
     snakeX += 20
     snakeY += 12
   }
   
-  def correctHighScore(level: Int) = {
-    if(level == 3) {
+  def correctHighScore() = {
+    if(originalLevel == 3) {
       highScoreHard
     }
-    else if(level == 2) {
+    else if(originalLevel == 2) {
       highScoreNormal
     }
     else {
@@ -113,16 +119,15 @@ class Game(val width: Int, val height: Int) {
     }
   }
   
-  def newHighScore(level: Int, length: Int) = {
-    if(level == 3) {
-      println(length)
-      highScoreHard = length
+  def newHighScore() = {
+    if(originalLevel == 3) {
+      highScoreHard = count
     }
-    else if (level == 2) {
-      highScoreNormal = length
+    else if (originalLevel == 2) {
+      highScoreNormal = count
     }
     else {
-      highScoreEasy = length
+      highScoreEasy = count
     }
   }
 }
