@@ -4,7 +4,10 @@ import javax.sound.sampled._
 import java.io.File
 
 class Music {
+  private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
+  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
   private val clip = AudioSystem.getClip
+  private val clip2 = AudioSystem.getClip
   private var muted = false
   private var count = 0
   
@@ -12,26 +15,48 @@ class Music {
     clip.close()
   }
   
-  def play(MusicFile: AudioInputStream) = {
-    if(count == 0){
-        clip.open(MusicFile)
+  def play(Song: String) = {
+    if(Song == "juna") {
+      if(clip.isOpen()) {
         clip.loop(Clip.LOOP_CONTINUOUSLY)
-        muted = false
-        count += 1
+      }
+      else{
+        clip.open(junaKulkee)
+        clip.loop(Clip.LOOP_CONTINUOUSLY)
+      }
+      muted = false
+    }
+    else {
+      if(clip2.isOpen()) {
+        clip2.loop(Clip.LOOP_CONTINUOUSLY)
+      }
+      else {
+        clip2.open(jokeriTuplaus)
+        clip2.loop(Clip.LOOP_CONTINUOUSLY)
+      }
+      muted = false
+    }    
+  }
+  def stop(Song: String) = {
+    if(Song == "juna") {
+      if(!muted) {
+        clip.stop()
+        muted = true
       }
       else {
         clip.loop(Clip.LOOP_CONTINUOUSLY)
         muted = false
       }
-  }
-  def stop() = {
-    if(!muted) {
-      clip.stop()
-      muted = true
     }
     else {
-     clip.loop(Clip.LOOP_CONTINUOUSLY)
-     muted = false
-    }
+      if(!muted) {
+        clip2.stop()
+        muted = true
+      }
+      else {
+       clip2.loop(Clip.LOOP_CONTINUOUSLY)
+       muted = false
+      }
+    } 
   }
 }

@@ -21,8 +21,6 @@ class Window extends PApplet {
   private val music = new Music()
   private val powerUp = new PowerUp(windowWidth,windowHeight)
   private val fruit = new Fruit(windowWidth, windowHeight)
-  private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
-  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
   private var gameTrue = false
   private var helpTrue = false
   
@@ -32,7 +30,7 @@ class Window extends PApplet {
   }
   
   override def setup() = {
-    //music.play(jokeriTuplaus)
+    music.play("jokeri")
   }
   override def draw() = {
     background(250)
@@ -122,7 +120,8 @@ class Window extends PApplet {
     keyCode match {
       //q
       case 81  => {
-        music.stop()
+        music.stop("juna")
+        music.play("jokeri")
         game.gameOver = false
         game.clear()
         gameTrue = false
@@ -150,7 +149,7 @@ class Window extends PApplet {
       }
       //m 
       case 77 => {
-        music.stop() 
+        if(!gameTrue) music.stop("jokeri") else music.stop("juna")
       }
       //b
       case 66 => {
@@ -170,7 +169,8 @@ class Window extends PApplet {
       //1
       case 49 => {
         if(!gameTrue) {
-          music.play(junaKulkee)
+          music.stop("jokeri")
+          music.play("juna")
           game.start(1)
           gameTrue = true
         }
@@ -178,7 +178,8 @@ class Window extends PApplet {
       //2
       case 50 => {
         if(!gameTrue) {
-          music.play(junaKulkee)
+          music.stop("jokeri")
+          music.play("juna")
           game.start(2)
           gameTrue = true
         }
@@ -186,7 +187,8 @@ class Window extends PApplet {
       //3
       case 51 => {
         if(!gameTrue) {
-          music.play(junaKulkee)
+          music.stop("jokeri")
+          music.play("juna")
           game.start(3)
           gameTrue = true
         }
