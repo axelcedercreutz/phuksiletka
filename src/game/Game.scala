@@ -11,7 +11,6 @@ class Game(Height: Int, Width: Int) {
   
   def correctHighScore(level: Int) = {
     if(level == 3) {
-      println("fuckedi fuck")
       highScoreHard
     }
     else if(level == 2) {
@@ -24,7 +23,6 @@ class Game(Height: Int, Width: Int) {
   
   def newHighScore(level: Int, length: Int) = {
     if(level == 3) {
-      println("fucked")
       println(length)
       highScoreHard = length
     }

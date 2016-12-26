@@ -90,7 +90,6 @@ class Window extends PApplet {
     text( "Score: " + (snakeX.size - 1), 70, 50);
     fill(118, 22, 167);
     textSize(17);
-    println(gameLevel)
     text( "High Score: "+ game.correctHighScore(gameLevel), 70, 70);
   }
   private def drawBasicSnake() {
