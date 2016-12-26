@@ -74,6 +74,16 @@ class Game(val width: Int, val height: Int) {
           gameLevel -= 1
         }
       }
+      else if(powerUp.effects() == "cut length") {
+        if(snakeX.size >= 5) {
+          snakeX.remove(snakeX.size - 4, 3)
+          snakeY.remove(snakeY.size - 4, 3)
+        }
+      }
+      else if(powerUp.effects() == "add length") {
+        snakeX.append((snakeX(snakeX.size -1) + dirX(dir))*2 % width,(snakeX(snakeX.size -1) + dirX(dir)) % width)
+        snakeY.append((snakeY(snakeY.size -1) + dirY(dir))*2 % height,(snakeY(snakeY.size -1) + dirY(dir)) % height)
+      }
       powerUpX = random.nextInt(width)
       powerUpY = random.nextInt(height)
     }
