@@ -22,6 +22,7 @@ class Window extends PApplet {
   private val blockSize = 25
   private val snakeX = new ArrayBuffer[Int]()
   private val snakeY = new ArrayBuffer[Int]()
+  private var gameLevel = 1;
   snakeX += 20
   snakeY += 12
   private var appleX = 12
@@ -32,8 +33,8 @@ class Window extends PApplet {
   private val dirY = new ArrayBuffer[Int]()
   private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val clip = AudioSystem.getClip
-  private var highScore = 0
   private val game = new Game(blockSize, blockSize)
+  //private var highScore = game.correctHighScore(gameLevel)
   private val Fruit = new Fruit(windowWidth, windowHeight)
   private var gameTrue = false
   private var helpTrue = false
@@ -89,7 +90,8 @@ class Window extends PApplet {
     text( "Score: " + (snakeX.size - 1), 70, 50);
     fill(118, 22, 167);
     textSize(17);
-    text( "High Score: "+ highScore, 70, 70);
+    println(gameLevel)
+    text( "High Score: "+ game.correctHighScore(gameLevel), 70, 70);
   }
   private def drawBasicSnake() {
     for(i <- 0 until snakeX.size) {
@@ -130,13 +132,13 @@ class Window extends PApplet {
         snakeY.remove(snakeY.size - 1)
         }
       }
+      if((snakeX.size - 1) > game.correctHighScore(gameLevel)) {
+        game.newHighScore(gameLevel, snakeX.size - 1)
+      }
 //        fill(0,255,255)
 //        rect(powerUpX*blockSize,powerUpY*blockSize, blockSize, blockSize)
     }
     else {
-      if((snakeX.size - 1) > highScore) {
-        highScore = snakeX.size - 1
-      }
       fill (0)
       textSize(30)
       text("Game over! \nPress SHIFT to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)
@@ -215,6 +217,7 @@ class Window extends PApplet {
       //1
       case 49 => {
         if(!gameTrue) {
+          gameLevel = 1
           frameRate(80)
           snakeX += 20
           snakeY += 12
@@ -224,6 +227,7 @@ class Window extends PApplet {
       //2
       case 50 => {
         if(!gameTrue) {
+          gameLevel = 2
           frameRate(140)
           snakeX += 20
           snakeY += 12
@@ -233,6 +237,7 @@ class Window extends PApplet {
       //3
       case 51 => {
         if(!gameTrue) {
+          gameLevel = 3
           frameRate(280)
           snakeX += 20
           snakeY += 12

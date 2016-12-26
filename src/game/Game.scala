@@ -5,17 +5,34 @@ import processing.core._
 class Game(Height: Int, Width: Int) {
   val height = Height
   val width = Width
-  var highScore1 = 0
-  var highScore2 = 0
-  var highScore3 = 0
+  var highScoreEasy = 0
+  var highScoreNormal = 0
+  var highScoreHard = 0
   
-  def newHighScore(frameRate: Float, length: Int) = {
-    if(frameRate == 80) {
-      highScore1 = length - 1
+  def correctHighScore(level: Int) = {
+    if(level == 3) {
+      println("fuckedi fuck")
+      highScoreHard
     }
-    else if (frameRate == 140) {
-      highScore2 = length - 1
+    else if(level == 2) {
+      highScoreNormal
     }
-    else highScore3 = length - 1
+    else {
+      highScoreEasy
+    }
+  }
+  
+  def newHighScore(level: Int, length: Int) = {
+    if(level == 3) {
+      println("fucked")
+      println(length)
+      highScoreHard = length
+    }
+    else if (level == 2) {
+      highScoreNormal = length
+    }
+    else {
+      highScoreEasy = length
+    }
   }
 }
