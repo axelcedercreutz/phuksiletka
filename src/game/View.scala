@@ -17,8 +17,8 @@ object Window {
 }
 
 class Window extends PApplet {
-  private val windowHeight = 40
-  private val windowWidth = 24
+  private val windowWidth = 40
+  private val windowHeight = 24
   private val blockSize = 25
   private val snakeX = new ArrayBuffer[Int]()
   private val snakeY = new ArrayBuffer[Int]()
@@ -26,12 +26,15 @@ class Window extends PApplet {
   snakeY += 12
   private var appleX = 12
   private var appleY = 10
+  private var powerUpX = 10
+  private var powerUpY = 10
   private val dirX = new ArrayBuffer[Int]()
   private val dirY = new ArrayBuffer[Int]()
   private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val clip = AudioSystem.getClip
   private var highScore = 0
   private val game = new Game(blockSize, blockSize)
+  private val Fruit = new Fruit(windowWidth, windowHeight)
   private var gameTrue = false
   private var helpTrue = false
   private var gameOver = false
@@ -43,7 +46,7 @@ class Window extends PApplet {
   dirY += (1,-1,0,0)
   
   override def settings() = {
-    size(windowHeight * blockSize, windowWidth * blockSize)
+    size(windowWidth * blockSize, windowHeight * blockSize)
   }
   
   override def setup(){
@@ -65,18 +68,18 @@ class Window extends PApplet {
   private def drawFirstScreen() {
     fill(250, 0, 250);
     textSize(65);
-    text( "PHUKSILETKA!", (windowWidth * blockSize)/2, 80);
+    text( "PHUKSILETKA!", (windowHeight * blockSize)/2, 80);
     fill(118, 22, 167);
     textSize(17);
-    text("To play on the easy level, press 1", (windowWidth * blockSize)/2, 260)
-    text("To play on the normal level, press 2", (windowWidth * blockSize)/2, 280)
-    text("To play on the hard level, press 3", (windowWidth * blockSize)/2, 300)
-    text( "Mikäli tarvitset ohjeita, paina H", (windowWidth * blockSize)/2, 400)
+    text("To play on the easy level, press 1", (windowHeight * blockSize)/2, 260)
+    text("To play on the normal level, press 2", (windowHeight * blockSize)/2, 280)
+    text("To play on the hard level, press 3", (windowHeight * blockSize)/2, 300)
+    text( "Mikäli tarvitset ohjeita, paina H", (windowHeight * blockSize)/2, 400)
   }
   private def drawHelpScreen() {
-    text("Yritä kerätä mahdollisimman monta viinaa,\nkerätyt viinat keräävät sinulle kavereita mukaan!", (windowWidth * blockSize)/2, 260)
-    text( "Liiku käyttämällä nuolinäppäimiä!", (windowWidth * blockSize)/2, 320)
-    text( "Aloita painamalla 1,2 tai 3!", (windowWidth * blockSize)/2, 350)
+    text("Yritä kerätä mahdollisimman monta viinaa,\nkerätyt viinat keräävät sinulle kavereita mukaan!", (windowHeight * blockSize)/2, 260)
+    text( "Liiku käyttämällä nuolinäppäimiä!", (windowHeight * blockSize)/2, 320)
+    text( "Aloita painamalla 1,2 tai 3!", (windowHeight * blockSize)/2, 350)
   }
   private def drawScoreboard() {
     // draw scoreboard
@@ -98,29 +101,37 @@ class Window extends PApplet {
       rect(appleX*blockSize,appleY*blockSize, blockSize, blockSize)
       if(frameCount % 10 == 0) {
         if(snakeX(0) + dirX(dir) < 0) {
-          snakeX.prepend(windowHeight)
+          snakeX.prepend(windowWidth)
           snakeY.prepend(snakeY(0) + dirY(dir))
         }
         else if(snakeY(0) + dirY(dir) < 0) {
           snakeX.prepend(snakeX(0) + dirX(dir))
-          snakeY.prepend(windowWidth)
+          snakeY.prepend(windowHeight)
         }
         else {
-          snakeX.prepend((snakeX(0) + dirX(dir)) % windowHeight)
-          snakeY.prepend((snakeY(0) + dirY(dir)) % windowWidth)
+          snakeX.prepend((snakeX(0) + dirX(dir)) % windowWidth)
+          snakeY.prepend((snakeY(0) + dirY(dir)) % windowHeight)
         }
         for(i <- 1 until snakeX.size) {
           if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
         }
         if(snakeX(0) == appleX && snakeY(0) == appleY) {
-          appleX = random.nextInt(windowWidth)
-          appleY = random.nextInt(windowHeight/2)
+          appleX = Fruit.nextX
+          appleY = Fruit.nextY
+          for(i <- 0 until snakeX.size) {
+            if(appleX == snakeX(i) || appleY == snakeY(i)) {
+              appleX = Fruit.nextX
+              appleY = Fruit.nextY
+            }
+          }
         }
         else {
         snakeX.remove(snakeX.size - 1)
         snakeY.remove(snakeY.size - 1)
         }
       }
+//        fill(0,255,255)
+//        rect(powerUpX*blockSize,powerUpY*blockSize, blockSize, blockSize)
     }
     else {
       if((snakeX.size - 1) > highScore) {

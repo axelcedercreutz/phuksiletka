@@ -1,6 +1,0 @@
-package game
-
-trait Spot
-
-
-
