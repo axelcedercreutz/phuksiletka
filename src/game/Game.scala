@@ -6,7 +6,6 @@ import scala.util.Random
 class Game(val width: Int, val height: Int) {
   
   val powerUp = new PowerUp(width,height)
-  private val fruit = new Fruit(width, height)
   private val random = Random // random number
   val snakeX = new ArrayBuffer[Int]()
   val snakeY = new ArrayBuffer[Int]()
@@ -14,8 +13,8 @@ class Game(val width: Int, val height: Int) {
   val dirY = new ArrayBuffer[Int]()
   var gameOver = false
   var dir = 2
-  var appleX = fruit.appleX
-  var appleY = fruit.appleY
+  var appleX = 12
+  var appleY = 10
   var powerUpX = powerUp.powerUpX
   var powerUpY = powerUp.powerUpY
   dirX += (0,0,1,-1)

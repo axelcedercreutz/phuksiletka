@@ -20,7 +20,6 @@ class Window extends PApplet {
   private val game = new Game(windowWidth, windowHeight)
   private val music = new Music()
   private val powerUp = new PowerUp(windowWidth,windowHeight)
-  private val fruit = new Fruit(windowWidth, windowHeight)
   private var gameTrue = false
   private var helpTrue = false
   
