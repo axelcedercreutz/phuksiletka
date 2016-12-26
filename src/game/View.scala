@@ -2,9 +2,9 @@ package game
 
 import processing.core._
 import scala.collection.mutable.ArrayBuffer
-import javax.imageio.ImageIO
 import javax.sound.sampled._
 import java.io.File
+import javax.imageio.ImageIO
 import scala.math._
 
 object Window {
@@ -14,6 +14,8 @@ object Window {
 }
 
 class Window extends PApplet {
+  private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
+  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
   private val windowWidth = 40
   private val windowHeight = 24
   private val blockSize = 25
@@ -28,16 +30,14 @@ class Window extends PApplet {
   private var powerUpY = 10
   private val dirX = new ArrayBuffer[Int]()
   private val dirY = new ArrayBuffer[Int]()
-  private val audioIn = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
-  private val clip = AudioSystem.getClip
   private val game = new Game(windowWidth, windowHeight)
-  private val powerUp = new powerUp(windowWidth,windowHeight)
+  private val music = new Music()
+  private val powerUp = new PowerUp(windowWidth,windowHeight)
   private val Fruit = new Fruit(windowWidth, windowHeight)
   private var gameTrue = false
   private var helpTrue = false
   private var gameOver = false
   private var dir = 2
-  private var muted = false
   
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
@@ -46,9 +46,8 @@ class Window extends PApplet {
     size(windowWidth * blockSize, windowHeight * blockSize)
   }
   
-  override def setup(){
-    clip.open(audioIn)
-    clip.loop(Clip.LOOP_CONTINUOUSLY)
+  override def setup() = {
+    //music.play(jokeriTuplaus)
   }
   override def draw() = {
     background(250)
@@ -164,6 +163,7 @@ class Window extends PApplet {
     keyCode match {
       //q
       case 81  => {
+        music.stop()
         gameOver = false
         snakeX.clear
         snakeY.clear
@@ -192,15 +192,7 @@ class Window extends PApplet {
       }
       //m
       case 77 => {
-        if(!muted) {
-          clip.stop()
-          muted = true
-        }
-        else {
-          clip.loop(Clip.LOOP_CONTINUOUSLY)
-          muted = false
-        }
-        
+        music.stop() 
       }
       //b
       case 66 => {
@@ -222,6 +214,7 @@ class Window extends PApplet {
       //1
       case 49 => {
         if(!gameTrue) {
+          music.play(junaKulkee)
           gameLevel = 1
           frameRate(80)
           snakeX += 20
@@ -232,6 +225,7 @@ class Window extends PApplet {
       //2
       case 50 => {
         if(!gameTrue) {
+          music.play(junaKulkee)
           gameLevel = 2
           frameRate(140)
           snakeX += 20
@@ -242,6 +236,7 @@ class Window extends PApplet {
       //3
       case 51 => {
         if(!gameTrue) {
+          music.play(junaKulkee)
           gameLevel = 3
           frameRate(280)
           snakeX += 20

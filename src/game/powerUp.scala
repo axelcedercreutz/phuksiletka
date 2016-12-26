@@ -3,7 +3,7 @@ package game
 import scala.util.Random
 import processing.core._
 
-class powerUp(width: Int, height: Int) {
+class PowerUp(width: Int, height: Int) {
   private val random = Random
   private val next = random.nextInt(4)
   
