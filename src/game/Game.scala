@@ -5,7 +5,6 @@ import scala.util.Random
 
 class Game(val width: Int, val height: Int) {
   
-  val powerUp = new PowerUp(width,height)
   private val random = Random // random number
   val snakeX = new ArrayBuffer[Int]()
   val snakeY = new ArrayBuffer[Int]()
@@ -15,8 +14,9 @@ class Game(val width: Int, val height: Int) {
   var dir = 2
   var appleX = 12
   var appleY = 10
-  var powerUpX = powerUp.powerUpX
-  var powerUpY = powerUp.powerUpY
+  var next = random.nextInt(4)
+  var powerUpX = 10
+  var powerUpY = 10
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
   var gameLevel = 1
@@ -66,27 +66,27 @@ class Game(val width: Int, val height: Int) {
   
   def powerUps() = {
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
-      if(powerUp.effects() == "speed up") {
+      if(next == 0) {
         if(gameLevel < 4) {
           gameLevel += 1
         }
       }
-      else if(powerUp.effects() == "slow down") {
+      else if(next == 1) {
         if(gameLevel > 1) {
           gameLevel -= 1
         }
       }
-      else if(powerUp.effects() == "cut length") {
+      else if(next == 2) {
         if(snakeX.size >= 5) {
           snakeX.remove(snakeX.size - 4, 3)
           snakeY.remove(snakeY.size - 4, 3)
         }
       }
-      else if(powerUp.effects() == "add length") {
+      else if(next == 3) {
         snakeX.append((snakeX(snakeX.size -1) + dirX(dir))*2 % width,(snakeX(snakeX.size -1) + dirX(dir)) % width)
         snakeY.append((snakeY(snakeY.size -1) + dirY(dir))*2 % height,(snakeY(snakeY.size -1) + dirY(dir)) % height)
       }
-      powerUp.next = powerUp.random.nextInt(4)
+      next = random.nextInt(4)
       powerUpX = random.nextInt(width)
       powerUpY = random.nextInt(height)
     }
