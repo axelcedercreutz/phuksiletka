@@ -68,6 +68,9 @@ class Window extends PApplet {
     text( "High Score: "+ game.correctHighScore(), 70, 70);
   }
   private def drawBasicSnake() {
+    val phuksi = loadImage("photos/nerd.png")
+    val bollinger = loadImage("photos/bollinger.png")
+    println(frameRate)
     if(game.gameLevel == 4) {
       frameRate(60)
     }
@@ -82,13 +85,12 @@ class Window extends PApplet {
     }
     for(i <- 0 until game.snakeX.size) {
       fill(0,255,0)
-      val phuksi = loadImage("photos/nerd.png")
       image(phuksi, game.snakeX(i) * blockSize, game.snakeY(i) * blockSize, blockSize, blockSize)
       //rect(game.snakeX(i) * blockSize,game.snakeY(i) * blockSize, blockSize, blockSize)
     }
     if(!game.gameOver) {
       fill(255,0,0)
-      val bollinger = loadImage("photos/bollinger.png")
+      
       image(bollinger,game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
       //rect(game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
       if(frameCount % 2 == 0) {

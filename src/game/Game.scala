@@ -27,10 +27,6 @@ class Game(val width: Int, val height: Int) {
   var highScoreHard = 0
   
   def moveSnake() = {
-    println(count)
-    println(gameLevel)
-    println(originalLevel)
-    println(highScoreNormal)
     if(snakeX(0) + dirX(dir) < 0) {
       snakeX.prepend(width)
       snakeY.prepend(snakeY(0) + dirY(dir))
