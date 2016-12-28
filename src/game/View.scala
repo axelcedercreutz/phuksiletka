@@ -65,11 +65,13 @@ class Window extends PApplet {
     text( "Score: " + game.count, 70, 50);
     fill(118, 22, 167);
     textSize(17);
-    text( "High Score: "+ game.correctHighScore(), 70, 70);
+    text( "High Score: "+ max(game.count, game.correctHighScore()), 70, 70);
   }
   private def drawBasicSnake() {
+    
     val phuksi = loadImage("photos/nerd.png")
     val bollinger = loadImage("photos/bollinger.png")
+    val coffee = loadImage("photos/coffee.png")
     println(frameRate)
     if(game.gameLevel == 4) {
       frameRate(60)
@@ -86,19 +88,17 @@ class Window extends PApplet {
     for(i <- 0 until game.snakeX.size) {
       fill(0,255,0)
       image(phuksi, game.snakeX(i) * blockSize, game.snakeY(i) * blockSize, blockSize, blockSize)
-      //rect(game.snakeX(i) * blockSize,game.snakeY(i) * blockSize, blockSize, blockSize)
     }
     if(!game.gameOver) {
       fill(255,0,0)
       
       image(bollinger,game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
-      //rect(game.appleX * blockSize,game.appleY * blockSize, blockSize, blockSize)
       if(frameCount % 2 == 0) {
         game.moveSnake()
       }
       if(frameCount % 300 > 100 && frameCount % 300 < 200) {
         fill(0,255,255)
-        rect(game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
+        image(coffee, game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
         game.powerUps()
       }        
     }
@@ -123,7 +123,9 @@ class Window extends PApplet {
     keyCode match {
       //q
       case 81  => {
-        music.stop("juna")
+        if(music.clip.isActive()) {
+          music.stop("juna")
+        }
         music.play("jokeri")
         game.gameOver = false
         game.clear()
@@ -172,7 +174,9 @@ class Window extends PApplet {
       //1
       case 49 => {
         if(!gameTrue) {
-          music.stop("jokeri")
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
           music.play("juna")
           game.start(1)
           gameTrue = true
@@ -181,7 +185,9 @@ class Window extends PApplet {
       //2
       case 50 => {
         if(!gameTrue) {
-          music.stop("jokeri")
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
           music.play("juna")
           game.start(2)
           gameTrue = true
@@ -190,7 +196,9 @@ class Window extends PApplet {
       //3
       case 51 => {
         if(!gameTrue) {
-          music.stop("jokeri")
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
           music.play("juna")
           game.start(3)
           gameTrue = true

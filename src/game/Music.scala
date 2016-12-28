@@ -6,8 +6,8 @@ import java.io.File
 class Music {
   private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
-  private val clip = AudioSystem.getClip
-  private val clip2 = AudioSystem.getClip
+  val clip = AudioSystem.getClip
+  val clip2 = AudioSystem.getClip
   private var muted = false
   private var count = 0
   
@@ -39,7 +39,7 @@ class Music {
   }
   def stop(Song: String) = {
     if(Song == "juna") {
-      if(!muted) {
+      if(clip.isActive()) {
         clip.stop()
         muted = true
       }
@@ -49,7 +49,7 @@ class Music {
       }
     }
     else {
-      if(!muted) {
+      if(clip2.isActive()) {
         clip2.stop()
         muted = true
       }
