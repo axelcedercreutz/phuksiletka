@@ -12,7 +12,7 @@ class Music {
   val clip3 = AudioSystem.getClip
   private var muted = false
   private var count = 0
-  private var test = ""
+  
   def close {
     clip.close()
   }
