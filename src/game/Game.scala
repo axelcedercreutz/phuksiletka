@@ -4,8 +4,7 @@ import scala.collection.mutable.ArrayBuffer
 import scala.util.Random
 
 class Game(val width: Int, val height: Int) {
-  
-  private val random = Random // random number
+  val music = new Music()
   val snakeX = new ArrayBuffer[Int]()
   val snakeY = new ArrayBuffer[Int]()
   val dirX = new ArrayBuffer[Int]()
@@ -14,17 +13,18 @@ class Game(val width: Int, val height: Int) {
   var dir = 2
   var appleX = 12
   var appleY = 10
-  var next = random.nextInt(4)
+  private val random = Random // random number
+  private var next = random.nextInt(4)
   var powerUpX = 10
   var powerUpY = 10
   dirX += (0,0,1,-1)
   dirY += (1,-1,0,0)
   var gameLevel = 1
-  var originalLevel = 0
+  var originalLevel = 1
   var count = 0
-  var highScoreEasy = 0
-  var highScoreNormal = 0
-  var highScoreHard = 0
+  private var highScoreEasy = 0
+  private var highScoreNormal = 0
+  private var highScoreHard = 0
   
   def moveSnake() = {
     if(snakeX(0) + dirX(dir) < 0) {
@@ -62,6 +62,7 @@ class Game(val width: Int, val height: Int) {
   
   def powerUps() = {
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
+      music.play("slurp")
       if(next == 0) {
         if(gameLevel < 4) {
           gameLevel += 1

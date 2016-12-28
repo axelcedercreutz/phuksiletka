@@ -18,7 +18,7 @@ class Window extends PApplet {
   private val windowHeight = 24
   private val blockSize = 25
   private val game = new Game(windowWidth, windowHeight)
-  private val music = new Music()
+  private val music = game.music
   private var gameTrue = false
   private var helpTrue = false
   
@@ -72,7 +72,7 @@ class Window extends PApplet {
     val phuksi = loadImage("photos/nerd.png")
     val bollinger = loadImage("photos/bollinger.png")
     val coffee = loadImage("photos/coffee.png")
-    println(frameRate)
+    
     if(game.gameLevel == 4) {
       frameRate(60)
     }
