@@ -34,11 +34,11 @@ class Window extends PApplet {
     if(!gameTrue && !helpTrue) {
       firstScreen()
     }
-    else if (gameTrue){
-      gameScreen()
-    }
     else if(helpTrue) {
       helpScreen()
+    }
+    else if (gameTrue){
+      gameScreen()
     }
   }
   private def drawFirstScreen() {
@@ -162,7 +162,7 @@ class Window extends PApplet {
       }
       //h
       case 72 => {
-        helpTrue = true
+        helpTrue = !helpTrue
       }
       //SHIFT
       case 16 => {
