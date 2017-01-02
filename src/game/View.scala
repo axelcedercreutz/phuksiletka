@@ -96,11 +96,11 @@ class Window extends PApplet {
       if(frameCount % 2 == 0) {
         game.moveSnake()
       }
-      if(frameCount % 300 > 100 && frameCount % 300 < 200) {
+      //if(frameCount % 300 > 100 && frameCount % 300 < 200) {
         fill(0,255,255)
         image(coffee, game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
         game.powerUps()
-      }        
+     // }        
     }
     else {
       fill (0)
@@ -158,7 +158,7 @@ class Window extends PApplet {
       }
       //b
       case 66 => {
-        println("background music gone")
+        music.stop("slurp")
       }
       //h
       case 72 => {

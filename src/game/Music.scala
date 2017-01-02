@@ -11,14 +11,28 @@ class Music {
   val clip2 = AudioSystem.getClip
   val clip3 = AudioSystem.getClip
   private var muted = false
-  private var count = 0
+  private var backgroundMute = false
   
   def close {
     clip.close()
   }
   
   def play(Song: String) = {
-    if(Song == "juna") {
+    if(Song == "slurp") {
+      println("hore")
+      if(!backgroundMute) {
+        println("test2")
+        if(clip3.isOpen()) {
+          clip3.loop(1)
+        }
+        else {
+          println("sataan")
+          clip3.open(slurp)
+          clip3.start()
+        }
+      }
+    }
+    else if(Song == "juna") {
       if(clip.isOpen()) {
         clip.loop(Clip.LOOP_CONTINUOUSLY)
       }
@@ -40,7 +54,16 @@ class Music {
     }    
   }
   def stop(Song: String) = {
-    if(Song == "juna") {
+    if(Song == "slurp") {
+      if(clip3.isActive()) {
+        clip3.stop()
+        backgroundMute = true
+      }
+      else {
+        backgroundMute = false
+      }
+    }
+    else if(Song == "juna") {
       if(clip.isActive()) {
         clip.stop()
         muted = true
