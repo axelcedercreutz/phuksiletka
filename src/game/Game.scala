@@ -37,6 +37,7 @@ class Game(val width: Int, val height: Int) {
   var powerUpX = 10
   var powerUpY = 10
   //variables for gamelevels
+  var gameLevelForWalls = 1
   var gameLevel = 1
   var originalLevel = 1
   //score count
@@ -68,19 +69,19 @@ class Game(val width: Int, val height: Int) {
       if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
     }
     //if snake hits wall game ends
-    if(gameLevel>1 && snakeX(0) == this.width-1 && dirX(dir) == 1){
+    if(gameLevelForWalls>1 && snakeX(0) == this.width-1 && dirX(dir) == 1){
       snakeX = snakeX.map(_-1)
       gameOver = true
     }
-    else if(gameLevel>1 && snakeX(0) == 0 && dirX(dir) == -1){
+    else if(gameLevelForWalls>1 && snakeX(0) == 0 && dirX(dir) == -1){
       snakeX = snakeX.map(_+1)
       gameOver = true
     }
-    else if(gameLevel>1 && snakeY(0) == 0 && dirY(dir) == -1){
+    else if(gameLevelForWalls>1 && snakeY(0) == 0 && dirY(dir) == -1){
       snakeY = snakeY.map(_+1)
       gameOver = true
     }
-    else if(gameLevel>1 && snakeY(0) == this.height-1 && dirY(dir) == 1){
+    else if(gameLevelForWalls>1 && snakeY(0) == this.height-1 && dirY(dir) == 1){
       snakeY = snakeY.map(_-1)
       gameOver = true
     }
@@ -91,7 +92,7 @@ class Game(val width: Int, val height: Int) {
       for(i <- 0 until snakeX.size) {
         if(appleX == snakeX(i) || appleY == snakeY(i)) {
          //prevents the apples to go out of bounds
-          if(gameLevel>1){
+          if(gameLevelForWalls>1){
            appleX = start + random.nextInt( (endX - start) + 1 )  
           appleY = start + random.nextInt( (endY - start) + 1 )  
           }
@@ -146,7 +147,7 @@ class Game(val width: Int, val height: Int) {
       next = random.nextInt(4)
       //places the next powerup in a random spot
       //prevents the apples to go out of bounds
-      if(gameLevel>1){
+      if(gameLevelForWalls>1){
       powerUpX = start + random.nextInt( (endX - start) + 1 )  
       powerUpY = start + random.nextInt( (endY - start) + 1 )
       }
@@ -166,6 +167,7 @@ class Game(val width: Int, val height: Int) {
   }
   //when the game starts
   def start(level: Int) = {
+    gameLevelForWalls = level
     gameLevel = level
     originalLevel = gameLevel
     snakeX += 20

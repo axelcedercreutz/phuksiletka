@@ -18,18 +18,9 @@ class Music {
   
   //starting the songs to play
   def play(Song: String) = {
-    //if the effect-sounds have been turned off / is not playing
-    if(!backgroundMute) {
-      if(clip3.isOpen()) {
-        clip3.loop(1)
-      }
-      else {
-        clip3.open(slurp)
-        clip3.start()
-      }
-    }
+   
     //if it's the background song for the game
-    else if(Song == "juna") {
+     if(Song == "juna") {
       //if the clip is not already open it opens it, otherwise it just starts the endless loop
       if(!clip.isOpen()) {
         clip.open(junaKulkee)
@@ -37,7 +28,8 @@ class Music {
       clip.loop(Clip.LOOP_CONTINUOUSLY)
       muted = false
     }
-    //if it's the background song for the main menu
+    
+     //if it's the background song for the main menu
     else if (Song == "jokeri") {
       //if the clip is not already open it opens it, otherwise it just starts the endless loop
       if(!clip2.isOpen()) {
@@ -46,6 +38,16 @@ class Music {
       clip2.loop(Clip.LOOP_CONTINUOUSLY)
       muted = false
     }    
+    //if the effect-sounds have been turned off / is not playing
+  else{
+      if(clip3.isOpen()) {
+        clip3.loop(1)
+      }
+      else {
+        clip3.open(slurp)
+        clip3.start()
+      }
+    }  
   }
   //stops the song if it's playing, calls for the play function if the song is not 
   def stop(Song: String) = {

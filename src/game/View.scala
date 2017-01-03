@@ -84,7 +84,7 @@ class Window extends PApplet {
   //add walls if playing with game modes 2 or 3
   private def drawWalls() = {
     val kuva = loadImage("photos/wall2.png")
-    if(game.gameLevel >1){
+    if(game.gameLevelForWalls >1){
    for(coordy <- 0 until game.height){
          image(kuva,0,coordy*blockSize,blockSize,blockSize)
          image(kuva,(game.width-1)*blockSize,coordy*blockSize,blockSize,blockSize)
