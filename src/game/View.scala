@@ -134,7 +134,7 @@ class Window extends PApplet {
         game.moveSnake()
       }
       //how it chooses when the coffees are seen an when not
-      if(frameCount % 300 > 100 && frameCount % 300 < 200) {
+      if(frameCount % 300 > 100 && frameCount % 300 < 200 && game.count >= 5) {
         fill(0,255,255)
         image(coffee, game.powerUpX * blockSize,game.powerUpY * blockSize, blockSize, blockSize)
         game.powerUps()
@@ -217,13 +217,13 @@ class Window extends PApplet {
         }
         else {
             music.stop("juna")
-            music.stop("slurp")
+            music.backgroundMute = !music.backgroundMute
         }
       }
       //b
       case 66 => {
         //only stops the gamesounds
-        music.stop("slurp")
+        music.backgroundMute = !music.backgroundMute
       }
       //h
       case 72 => {

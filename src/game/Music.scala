@@ -3,56 +3,51 @@ package game
 import javax.sound.sampled._
 import java.io.File
 
+//class for starting and stopping music
 class Music {
+  //creating AudioInputStreams of all the required songs
   private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
   private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
   private val slurp = AudioSystem.getAudioInputStream(new File("music/slurp.wav").getAbsoluteFile())
+  //clips for all of the different songs
   val clip = AudioSystem.getClip
   val clip2 = AudioSystem.getClip
   val clip3 = AudioSystem.getClip
   private var muted = false
-  private var backgroundMute = false
+  var backgroundMute = false
   
-  def close {
-    clip.close()
-  }
-  
+  //starting the songs to play
   def play(Song: String) = {
-    if(Song == "slurp") {
-      println("hore")
-      if(!backgroundMute) {
-        println("test2")
-        if(clip3.isOpen()) {
-          clip3.loop(1)
-        }
-        else {
-          println("sataan")
-          clip3.open(slurp)
-          clip3.start()
-        }
-      }
-    }
-    else if(Song == "juna") {
-      if(clip.isOpen()) {
-        clip.loop(Clip.LOOP_CONTINUOUSLY)
-      }
-      else{
-        clip.open(junaKulkee)
-        clip.loop(Clip.LOOP_CONTINUOUSLY)
-      }
-      muted = false
-    }
-    else if (Song == "jokeri") {
-      if(clip2.isOpen()) {
-        clip2.loop(Clip.LOOP_CONTINUOUSLY)
+    //if the effect-sounds have been turned off / is not playing
+    if(!backgroundMute) {
+      if(clip3.isOpen()) {
+        clip3.loop(1)
       }
       else {
-        clip2.open(jokeriTuplaus)
-        clip2.loop(Clip.LOOP_CONTINUOUSLY)
+        clip3.open(slurp)
+        clip3.start()
       }
+    }
+    //if it's the background song for the game
+    else if(Song == "juna") {
+      //if the clip is not already open it opens it, otherwise it just starts the endless loop
+      if(!clip.isOpen()) {
+        clip.open(junaKulkee)
+      }
+      clip.loop(Clip.LOOP_CONTINUOUSLY)
+      muted = false
+    }
+    //if it's the background song for the main menu
+    else if (Song == "jokeri") {
+      //if the clip is not already open it opens it, otherwise it just starts the endless loop
+      if(!clip2.isOpen()) {
+        clip2.open(jokeriTuplaus)
+      }
+      clip2.loop(Clip.LOOP_CONTINUOUSLY)
       muted = false
     }    
   }
+  //stops the song if it's playing, calls for the play function if the song is not 
   def stop(Song: String) = {
     if(Song == "slurp") {
       if(clip3.isActive()) {
@@ -69,8 +64,7 @@ class Music {
         muted = true
       }
       else {
-        clip.loop(Clip.LOOP_CONTINUOUSLY)
-        muted = false
+        play("juna")
       }
     }
     else {
@@ -79,8 +73,7 @@ class Music {
         muted = true
       }
       else {
-       clip2.loop(Clip.LOOP_CONTINUOUSLY)
-       muted = false
+       play("jokeri")
       }
     } 
   }
