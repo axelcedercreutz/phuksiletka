@@ -64,6 +64,11 @@ class Game(val width: Int, val height: Int) {
     for(i <- 1 until snakeX.size) {
       if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
     }
+    //if snake hits wall game ends
+    if(gameLevel>1 && snakeX(0) == this.width-1 && dirX(dir) == 1) gameOver = true
+    else if(gameLevel>1 && snakeX(0) == 0 && dirX(dir) == -1) gameOver = true
+    else if(gameLevel>1 && snakeY(0) == 0 && dirY(dir) == -1) gameOver = true
+    else if(gameLevel>1 && snakeY(0) == this.height-1 && dirY(dir) == 1) gameOver = true
     //when the "snake's head" and the "apple" are aligned
     if(snakeX(0) == appleX && snakeY(0) == appleY) {
       //score adds one
@@ -89,7 +94,7 @@ class Game(val width: Int, val height: Int) {
   def powerUps() = {
     //when the "snake's head" is aligned with the powerup
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
-      //plays the slurp sound
+  //    plays the slurp sound
       music.play("slurp")
       //speeds up the "snake"
       if(next == 0) {

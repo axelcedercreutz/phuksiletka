@@ -81,6 +81,20 @@ class Window extends PApplet {
     text("To play on the hard level, press 3", (windowHeight * blockSize)/2, 300)
     text( "Mikäli tarvitset ohjeita, paina H", (windowHeight * blockSize)/2, 400)
   }
+  //add walls if playing with game modes 2 or 3
+  private def drawWalls() = {
+    val kuva = loadImage("photos/wall2.png")
+    if(game.gameLevel >1){
+   for(coordy <- 0 until game.height){
+         image(kuva,0,coordy*blockSize,blockSize,blockSize)
+         image(kuva,(game.width-1)*blockSize,coordy*blockSize,blockSize,blockSize)
+   }
+   for(coordx <- 0 until game.width){
+     image(kuva,coordx*blockSize,0,blockSize,blockSize)
+     image(kuva,coordx*blockSize,(game.height-1)*blockSize,blockSize,blockSize)
+   }
+    }
+  }
   //what is drawn in the helpscreen
   private def drawHelpScreen() {
     //color
@@ -156,6 +170,7 @@ class Window extends PApplet {
   //this is drawn in draw - gamescreen
   def gameScreen() {
     drawScoreboard()
+    drawWalls()
     drawBasicSnake()
   }
   //this is drawn in draw - helpscreen
