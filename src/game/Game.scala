@@ -9,9 +9,9 @@ class Game(val width: Int, val height: Int) {
   //creating the music for the game
   val music = new Music()
   //an array for the x-axel for the "snake"
-  val snakeX = new ArrayBuffer[Int]()
+  var snakeX = new ArrayBuffer[Int]()
   //an array for the y-axel for the "snake"
-  val snakeY = new ArrayBuffer[Int]()
+  var snakeY = new ArrayBuffer[Int]()
   ////an array for the x-axel for the direction
   val dirX = new ArrayBuffer[Int]()
   //an array for the y-axel for the "snake"
@@ -27,6 +27,9 @@ class Game(val width: Int, val height: Int) {
   var appleX = 12
   var appleY = 10
   //random number
+  val start = 1
+  val endX = this.width- 2
+  val endY = this.height - 2
   private val random = Random
   //random number for powerups
   private var next = random.nextInt(4)
@@ -65,18 +68,37 @@ class Game(val width: Int, val height: Int) {
       if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
     }
     //if snake hits wall game ends
-    if(gameLevel>1 && snakeX(0) == this.width-1 && dirX(dir) == 1) gameOver = true
-    else if(gameLevel>1 && snakeX(0) == 0 && dirX(dir) == -1) gameOver = true
-    else if(gameLevel>1 && snakeY(0) == 0 && dirY(dir) == -1) gameOver = true
-    else if(gameLevel>1 && snakeY(0) == this.height-1 && dirY(dir) == 1) gameOver = true
+    if(gameLevel>1 && snakeX(0) == this.width-1 && dirX(dir) == 1){
+      snakeX = snakeX.map(_-1)
+      gameOver = true
+    }
+    else if(gameLevel>1 && snakeX(0) == 0 && dirX(dir) == -1){
+      snakeX = snakeX.map(_+1)
+      gameOver = true
+    }
+    else if(gameLevel>1 && snakeY(0) == 0 && dirY(dir) == -1){
+      snakeY = snakeY.map(_+1)
+      gameOver = true
+    }
+    else if(gameLevel>1 && snakeY(0) == this.height-1 && dirY(dir) == 1){
+      snakeY = snakeY.map(_-1)
+      gameOver = true
+    }
     //when the "snake's head" and the "apple" are aligned
     if(snakeX(0) == appleX && snakeY(0) == appleY) {
       //score adds one
       count += 1
       for(i <- 0 until snakeX.size) {
         if(appleX == snakeX(i) || appleY == snakeY(i)) {
-          appleX = random.nextInt(width)
-          appleY = random.nextInt(height)
+         //prevents the apples to go out of bounds
+          if(gameLevel>1){
+           appleX = start + random.nextInt( (endX - start) + 1 )  
+          appleY = start + random.nextInt( (endY - start) + 1 )  
+          }
+          else{
+        appleX = random.nextInt(this.width)
+        appleY = random.nextInt(this.height)
+      }
         }
       }
     }
@@ -123,9 +145,17 @@ class Game(val width: Int, val height: Int) {
       //creates a new random number for the next powerup to be
       next = random.nextInt(4)
       //places the next powerup in a random spot
-      powerUpX = random.nextInt(width)
-      powerUpY = random.nextInt(height)
+      //prevents the apples to go out of bounds
+      if(gameLevel>1){
+      powerUpX = start + random.nextInt( (endX - start) + 1 )  
+      powerUpY = start + random.nextInt( (endY - start) + 1 )
+      }
+      else{
+        powerUpX = random.nextInt(this.width-1)
+        powerUpY = random.nextInt(this.height-1)
+      }
     }
+       
   }
   
   //when the game has ended and the screen is cleared
