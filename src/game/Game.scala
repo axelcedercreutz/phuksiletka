@@ -117,8 +117,8 @@ class Game(val width: Int, val height: Int) {
   def powerUps() = {
     //when the "snake's head" is aligned with the powerup
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
-  //    plays the slurp sound
       count += 3
+      //plays the slurp sound
       music.play("slurp")
       //speeds up the "snake"
       if(next == 0) {
@@ -141,16 +141,16 @@ class Game(val width: Int, val height: Int) {
       }
       //makes the "snake" longer
       else if(next == 3) {
-        snakeX.append((snakeX(snakeX.size -1) + dirX(dir))*2 % width,(snakeX(snakeX.size -1) + dirX(dir)) % width)
-        snakeY.append((snakeY(snakeY.size -1) + dirY(dir))*2 % height,(snakeY(snakeY.size -1) + dirY(dir)) % height)
+        snakeX.append((snakeX(snakeX.size -1) + dirX(dir)) % width,(snakeX(snakeX.size -1) + dirX(dir) + dirX(dir)) % width)
+        snakeY.append((snakeY(snakeY.size -1) + dirY(dir)) % height,(snakeY(snakeY.size -1) + dirY(dir) + dirY(dir)) % height)
       }
       //creates a new random number for the next powerup to be
       next = random.nextInt(4)
       //places the next powerup in a random spot
       //prevents the apples to go out of bounds
       if(gameLevelForWalls>1){
-      powerUpX = start + random.nextInt( (endX - start) + 1 )  
-      powerUpY = start + random.nextInt( (endY - start) + 1 )
+        powerUpX = start + random.nextInt( (endX - start) + 1 )  
+        powerUpY = start + random.nextInt( (endY - start) + 1 )
       }
       else{
         powerUpX = random.nextInt(this.width-1)
