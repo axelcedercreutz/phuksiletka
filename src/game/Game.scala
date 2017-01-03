@@ -118,6 +118,7 @@ class Game(val width: Int, val height: Int) {
     //when the "snake's head" is aligned with the powerup
     if(snakeX(0) == powerUpX && snakeY(0) == powerUpY) {
   //    plays the slurp sound
+      count += 3
       music.play("slurp")
       //speeds up the "snake"
       if(next == 0) {
