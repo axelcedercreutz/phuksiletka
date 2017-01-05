@@ -2,20 +2,22 @@ package game
 
 import javax.sound.sampled._
 import java.io.File
+import  sun.audio._
 
 //class for starting and stopping music
 class Music {
   //creating AudioInputStreams of all the required songs
-  private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav").getAbsoluteFile())
-  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav").getAbsoluteFile())
-  private val slurp = AudioSystem.getAudioInputStream(new File("music/slurp.wav").getAbsoluteFile())
+  private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav"))
+  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav"))
+  private val slurp = AudioSystem.getAudioInputStream(new File("music/slurp.wav")) //.getAbsoluteFile())
   //clips for all of the different songs
   val clip = AudioSystem.getClip
   val clip2 = AudioSystem.getClip
   val clip3 = AudioSystem.getClip
   var mute = false
- /* var muted = false
-  var backgroundMute = false*/
+ 
+  //open slurp sound for powerups
+  clip3.open(slurp)
   
   //starting the songs to play
   def play(Song: String) = {
@@ -39,14 +41,9 @@ class Music {
     }    
     //if the effect-sounds have been turned off / is not playing
   else if (Song == "slurp" && !mute){
-      if(!clip3.isOpen()) {
-        clip3.open(slurp)
-        clip3.start
-      }
-      else {
-        clip3.start
-      }
-    }  
+    clip3.setFramePosition(0)
+    clip3.start
+    }
   }
   //stops the song if it's playing, calls for the play function if the song is not 
   def stop(Song: String) = {
@@ -54,24 +51,15 @@ class Music {
       if(clip2.isActive()) {
         clip2.stop()
       }
-  /*    else {
-        backgroundMute = false
-      }*/
     }
     else if(Song == "juna") {
       if(clip.isActive()) {
         clip.stop()
       }
-    /*  else {
-        play("juna")
-      }*/
     }
     else if(Song == "slurp") {
       if(clip3.isActive())
         clip3.stop()
-    /*  else {
-       play("jokeri")
-      }*/
     } 
   }
 }
