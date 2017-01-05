@@ -20,6 +20,7 @@ object Window {
 
 //creates the main window
 class Window extends PApplet {
+  var screen = 1
   //width for the game
   private val windowWidth = 40
   //hight for the game
@@ -53,11 +54,6 @@ class Window extends PApplet {
     if(!gameTrue && !helpTrue) {
       firstScreen()
     }
-    //helpscreen
-    else if(helpTrue) {
-      helpScreen()
-    }
-    //gamescreen
     else if (gameTrue){
       gameScreen()
     }
@@ -65,22 +61,9 @@ class Window extends PApplet {
   
   //what is drawn in the main menu
   private def drawFirstScreen() {
-    //textcolor
-    fill(250, 0, 250)
-    //textsize
-    textSize(65)
-    //Title
-    text( "PHUKSILETKA!", (windowHeight * blockSize)/2, 80)
-    //new color
-    fill(118, 22, 167)
-    //new size
-    textSize(17)
-    //instructions
-    text("To play on the easy level, press 1", (windowHeight * blockSize)/2, 260)
-    text("To play on the normal level, press 2", (windowHeight * blockSize)/2, 280)
-    text("To play on the hard level, press 3", (windowHeight * blockSize)/2, 300)
-    text( "Mikäli tarvitset ohjeita, paina H", (windowHeight * blockSize)/2, 400)
+    updateGameView()    
   }
+ 
   //add walls if playing with game modes 2 or 3
   private def drawWalls() = {
     val kuva = loadImage("photos/wall2.png")
@@ -95,6 +78,11 @@ class Window extends PApplet {
    }
     }
   }
+  
+   private def updateGameView() = {
+    image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+  }
+   
   //what is drawn in the helpscreen
   private def drawHelpScreen() {
     //color
@@ -156,9 +144,17 @@ class Window extends PApplet {
     }
     //what happens when game is over
     else {
-      fill (0)
+      if(music.mute){
+        screen = 42
+        updateGameView()
+      }
+      else{
+        screen = 4
+        updateGameView()
+      }
+     /* fill (0)
       textSize(30)
-      text("Game over! \nPress Shift to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)
+      text("Game over! \nPress Shift to start new game on the same level \nq to go back to the main menu",windowWidth*5,windowHeight*5)*/
     }
   }
   
@@ -173,29 +169,183 @@ class Window extends PApplet {
     drawWalls()
     drawBasicSnake()
   }
-  //this is drawn in draw - helpscreen
-  def helpScreen() {
-    drawHelpScreen()
-  }
   
+  override def mouseClicked(){
+
+    //mute main menu
+    if(screen ==1 && mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580&& !music.mute){
+          screen = 12
+          music.stop("jokeri")
+          music.mute = true
+  }
+    //unmute main menu
+        else if(screen ==12 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+          screen = 1
+          music.mute = false
+          music.play("jokeri") 
+        }
+    //open levelscreen
+        else if(screen == 1 &&mouseX >342 && mouseX<632 && mouseY >197 && mouseY<274){
+          screen = 2
+        }
+    //open mutedlevelscreen
+        else if(screen == 12 &&mouseX >342 && mouseX<632 && mouseY >197 && mouseY<274){
+          screen = 22
+        }
+    // open helpscreen
+        else if(screen == 1 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
+          screen = 5
+        }
+    // open muted helpscreen
+    else if(screen == 12 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
+          screen = 52
+        }
+    
+     // start easy
+        else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
+          if(screen == 2){
+          screen = 3
+          if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          music.play("juna")
+          game.start(1)
+          gameTrue = true
+          }
+          }
+          else{
+            game.start(1)
+          gameTrue = true
+          }
+          screen = 3
+        }
+   //start medium
+        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
+          if(screen == 2){
+          if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          music.play("juna")
+          game.start(2)
+          gameTrue = true
+          }
+          }
+          else{
+            game.start(2)
+          gameTrue = true
+          }
+          screen = 3
+        }
+   //start hard
+        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
+          if(screen == 2){
+          if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          music.play("juna")
+          game.start(3)
+          gameTrue = true
+          }
+          }
+          else{
+            game.start(3)
+          gameTrue = true
+          }
+          screen = 3
+        }
+    //mute levelscreen
+        else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+          screen = 22
+          music.stop("jokeri") 
+          music.mute = true
+        }
+    //unmute levelscreen
+        else if(screen == 22 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+          screen = 2
+        music.mute = false
+        music.play("jokeri") 
+        }
+    //open unmuted mainmenu
+        else if(screen == 2 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 1          
+        }
+    //open muted mainmenu
+        else if(screen == 22 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588) screen = 12
+        
+    //game over
+        else if(screen == 4 && mouseX >346 && mouseX<624 && mouseY >291 && mouseY<362){
+          screen = 3
+          game.gameOver = false
+          game.clear()
+          game.start(game.originalLevel)
+          gameTrue = true
+        }
+        // restart
+        else if(screen == 42 && mouseX >346 && mouseX<624 && mouseY >291 && mouseY<362){
+          screen = 3
+          game.gameOver = false
+          game.clear()
+          game.start(game.originalLevel)
+          gameTrue = true
+        }
+    //open unmuted main menu
+        else if(screen == 4 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 1
+          music.stop("juna")
+          music.play("jokeri")
+          game.gameOver = false
+          gameTrue = false
+        }
+      // open muted main menu  
+        else if(screen == 42 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 12
+          game.gameOver = false
+          gameTrue = false
+        }
+      // mute gameover
+        else if(screen == 4 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && !music.mute){
+          screen = 42
+          music.stop("juna")
+          music.mute = true
+        }
+    // unmute gameover
+        else if (screen == 42 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && music.mute){
+          screen = 4
+          music.mute = false
+          music.play("juna")
+        }
+   // open unmuted helpscreen
+        else if(screen == 5 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 1
+        }
+    //open muted main menu
+        else if(screen == 52 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 12
+        }
+    //mute helpscreen
+        else if(screen ==5 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+          screen = 52
+          music.stop("jokeri") 
+          music.mute = true
+        }
+    //unmute helpscreen
+        else if(screen == 52 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+          screen = 5
+        music.mute = false
+        music.play("jokeri") 
+        }
+    
+        if(screen != 3){
+          this.updateGameView()
+        }
+        else {}
+  }
   //detecting key presses
   override def keyPressed(){
     keyCode match {
-      //q
-      case 81  => {
-        //checks if game music is on
-        if(music.clip.isActive()) {
-          music.stop("juna")
-        }
-        //starts menu music
-        music.play("jokeri")
-        game.gameOver = false
-        //clears the floor
-        game.clear()
-        //goes to the main menu
-        gameTrue = false
-        helpTrue = false
-      }
       //when left key is pressed
       case PConstants.LEFT => {
         //if the direction is up or down
@@ -222,71 +372,6 @@ class Window extends PApplet {
         //if the direction is left or right
         if(game.dir == 2 || game.dir == 3) {
           game.dir = 0
-        }
-      }
-      //m 
-      case 77 => {
-        //checks what to mute
-        if(!gameTrue) {
-          music.stop("jokeri") 
-        }
-        else {
-            music.stop("juna")
-            music.backgroundMute = !music.backgroundMute
-        }
-      }
-      //b
-      case 66 => {
-        //only stops the gamesounds
-        music.backgroundMute = !music.backgroundMute
-      }
-      //h
-      case 72 => {
-        //shows & hides the helpscreen
-        helpTrue = !helpTrue
-      }
-      //SHIFT
-      case 16 => {
-        //restarts a new game on the same level
-        game.gameOver = false
-        game.clear()
-        game.start(game.originalLevel)
-        gameTrue = true
-      }
-      //1
-      case 49 => {
-        //starts a new game on level easy if there's no game happening
-        if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          music.play("juna")
-          game.start(1)
-          gameTrue = true
-        }
-      }
-      //2
-      case 50 => {
-        //starts a new game on level normal if there's no game happening
-        if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          music.play("juna")
-          game.start(2)
-          gameTrue = true
-        }
-      }
-      //3
-      case 51 => {
-        //starts a new game on level hard if there's no game happening
-        if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          music.play("juna")
-          game.start(3)
-          gameTrue = true
         }
       }
       //any other - does nothing
