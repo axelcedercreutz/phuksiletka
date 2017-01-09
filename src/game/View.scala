@@ -58,6 +58,14 @@ class Window extends PApplet {
       gameScreen()
     }
   }
+  //draw highscores to highscore page
+  private def drawScores() {
+    fill(0, 0, 0)
+    textSize(50)
+    text( game.highScoreHard, 483, 275)
+    text( game.highScoreNormal, 483, 360)
+    text( game.highScoreEasy, 483, 448)
+  }
   
   //what is drawn in the main menu
   private def drawFirstScreen() {
@@ -80,8 +88,15 @@ class Window extends PApplet {
   }
   
    private def updateGameView() = {
+     if(screen != 6 && screen != 62){
     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+     }
+     else{
+     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+     this.drawScores
+     }
   }
+   
    
   //what is drawn in the helpscreen
   private def drawHelpScreen() {
@@ -197,61 +212,95 @@ class Window extends PApplet {
     else if(screen == 12 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
           screen = 52
     }
+    // open highscores
+    else if((screen == 1) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
+      screen = 6
+    }
+    //open muted highscores
+    else if((screen == 12) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
+      screen = 62
+    }
+    //open muted main menu
+        else if(screen == 62 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 12
+        }
+    //open unmuted mainmenu
+        else if(screen == 6 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+          screen = 1
+        }
+    //mute highscores
+        else if(screen ==6 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+          screen = 62
+          music.stop("jokeri") 
+          music.mute = true
+        }
+    //unmute highscores
+        else if(screen == 62 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+          screen = 6
+        music.mute = false
+        music.play("jokeri") 
+        }
     // start easy
-      else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
-        if(screen == 2){
+        else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
+          if(screen == 2){
           screen = 3
           if(!gameTrue) {
-            if(music.clip2.isActive()) {
-              music.stop("jokeri")
-            }
-            music.play("juna")
-            game.start(1)
-            gameTrue = true
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
           }
-        }
-        else{
+          game.clear()
+          music.play("juna")
           game.start(1)
           gameTrue = true
-        }
-        screen = 3
-      }
-   //start medium
-      else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
-        if(screen == 2){
-          if(!gameTrue) {
-            if(music.clip2.isActive()) {
-              music.stop("jokeri")
-            }
-            music.play("juna")
-            game.start(2)
-            gameTrue = true
           }
+          }
+          else{
+            game.clear()
+            game.start(1)
+          gameTrue = true
+          }
+          screen = 3
         }
-        else{
+   //start medium
+        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
+          if(screen == 2){
+          if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          game.clear()
+          music.play("juna")
           game.start(2)
           gameTrue = true
-        }
-        screen = 3
-      }
-   //start hard
-      else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
-        if(screen == 2){
-          if(!gameTrue) {
-            if(music.clip2.isActive()) {
-              music.stop("jokeri")
-            }
-            music.play("juna")
-            game.start(3)
-            gameTrue = true
           }
+          }
+          else{
+            game.clear()
+            game.start(2)
+          gameTrue = true
+          }
+          screen = 3
         }
-        else{
+   //start hard
+        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
+          if(screen == 2){
+          if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          game.clear()
+          music.play("juna")
           game.start(3)
           gameTrue = true
+          }
+          }
+          else{
+            game.clear()
+            game.start(3)
+          gameTrue = true
+          }
+          screen = 3
         }
-        screen = 3
-      }
     //mute levelscreen
       else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
         screen = 22

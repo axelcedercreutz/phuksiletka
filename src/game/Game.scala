@@ -27,7 +27,7 @@ class Game(val width: Int, val height: Int) {
   var appleX = 12
   var appleY = 10
   //random number
-  val start = 1
+  val startNumber = 1
   val endX = this.width- 2
   val endY = this.height - 2
   private val random = Random
@@ -43,9 +43,9 @@ class Game(val width: Int, val height: Int) {
   //score count
   var count = 0
   //highscores for each level
-  private var highScoreEasy = 0
-  private var highScoreNormal = 0
-  private var highScoreHard = 0
+   var highScoreEasy = 0
+   var highScoreNormal = 0
+   var highScoreHard = 0
   
   //the movement of a snake
   def moveSnake() = {
@@ -93,8 +93,8 @@ class Game(val width: Int, val height: Int) {
         if(appleX == snakeX(i) || appleY == snakeY(i)) {
          //prevents the apples to go out of bounds
           if(gameLevelForWalls>1){
-           appleX = start + random.nextInt( (endX - start) + 1 )  
-          appleY = start + random.nextInt( (endY - start) + 1 )  
+           appleX = startNumber + random.nextInt( (endX - startNumber) + 1 )  
+          appleY = startNumber + random.nextInt( (endY - startNumber) + 1 )  
           }
           else{
         appleX = random.nextInt(this.width)
@@ -112,6 +112,16 @@ class Game(val width: Int, val height: Int) {
     if((snakeX.size - 1) > correctHighScore()) {
         newHighScore()
     }
+  }
+  def swapFirstApplelocation = {
+    if(gameLevelForWalls>1){
+      appleX = startNumber + random.nextInt( (endX - startNumber) + 1 )
+      appleY = startNumber + random.nextInt( (endY - startNumber) + 1 )  
+      }
+    else{
+      appleX = random.nextInt(this.width)
+      appleY = random.nextInt(this.height)
+      }
   }
   //how the powerups works
   def powerUps() = {
@@ -149,8 +159,8 @@ class Game(val width: Int, val height: Int) {
       //places the next powerup in a random spot
       //prevents the apples to go out of bounds
       if(gameLevelForWalls>1){
-        powerUpX = start + random.nextInt( (endX - start) + 1 )  
-        powerUpY = start + random.nextInt( (endY - start) + 1 )
+        powerUpX = startNumber + random.nextInt( (endX - startNumber) + 1 )  
+        powerUpY = startNumber + random.nextInt( (endY - startNumber) + 1 )
       }
       else{
         powerUpX = random.nextInt(this.width-1)
@@ -171,6 +181,7 @@ class Game(val width: Int, val height: Int) {
     gameLevelForWalls = level
     gameLevel = level
     originalLevel = gameLevel
+    swapFirstApplelocation
     snakeX += 20
     snakeY += 12
   }
