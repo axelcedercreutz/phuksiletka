@@ -66,6 +66,13 @@ class Window extends PApplet {
     text( game.highScoreNormal, 483, 360)
     text( game.highScoreEasy, 483, 448)
   }
+  // draw scores to gameover page
+  private def gameOverScores() = {
+    fill(0, 0, 0)
+    textSize(50)
+    text( game.count, 449, 288)
+    text( game.correctHighScore, 449, 410)
+  }
   
   //what is drawn in the main menu
   private def drawFirstScreen() {
@@ -88,12 +95,16 @@ class Window extends PApplet {
   }
   
    private def updateGameView() = {
-     if(screen != 6 && screen != 62){
+     if(screen != 6 && screen != 62 && screen != 4 && screen != 42){
     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+     }
+     else if(screen == 6 || screen == 62){
+     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+     this.drawScores
      }
      else{
      image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
-     this.drawScores
+     this.gameOverScores
      }
   }
    
@@ -183,7 +194,6 @@ class Window extends PApplet {
   }
   
   override def mouseClicked(){
-
     //mute main menu
     if(screen ==1 && mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580&& !music.mute){
           screen = 12
@@ -321,7 +331,7 @@ class Window extends PApplet {
       else if(screen == 22 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588) screen = 12
         
     //game over
-      else if(screen == 4 && mouseX >346 && mouseX<624 && mouseY >291 && mouseY<362){
+      else if(screen == 4 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
         screen = 3
         game.gameOver = false
         game.clear()
@@ -329,7 +339,7 @@ class Window extends PApplet {
         gameTrue = true
       }
      // restart
-      else if(screen == 42 && mouseX >346 && mouseX<624 && mouseY >291 && mouseY<362){
+      else if(screen == 42 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
         screen = 3
         game.gameOver = false
         game.clear()
