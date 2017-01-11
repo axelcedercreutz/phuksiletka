@@ -109,7 +109,7 @@ class Game(val width: Int, val height: Int) {
       snakeY.remove(snakeY.size - 1)
     }
     //changes the highscore
-    if((snakeX.size - 1) > correctHighScore()) {
+    if((this.count) > correctHighScore()) {
         newHighScore()
     }
   }
