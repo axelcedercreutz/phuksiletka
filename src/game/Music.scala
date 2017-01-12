@@ -47,6 +47,7 @@ class Music {
   //stops the song if it's playing, calls for the play function if the song is not 
   def stop(Song: String) = {
     if(Song == "jokeri") {
+      clip2.setFramePosition(0)
       if(clip2.isActive()) {
         clip2.stop()
       }
@@ -54,6 +55,7 @@ class Music {
     else if(Song == "juna") {
       if(clip.isActive()) {
         clip.stop()
+        clip.setFramePosition(0)
       }
     }
     else if(Song == "slurp") {
