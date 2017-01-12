@@ -37,7 +37,7 @@ class Window extends PApplet {
   private var helpTrue = false
   
   private var helpOn = false
-   
+     
   //setting the size of the window
   override def settings() = {
     size(windowWidth * blockSize, windowHeight * blockSize)
@@ -261,14 +261,14 @@ class Window extends PApplet {
       music.mute = false
       music.play("jokeri") 
       }
-      if(screen != 3){
-        this.updateGameView()
-      }
           // mute gameover
       else if(screen == 42){
         screen = 42
         music.stop("juna")
         music.mute = true
+      }
+     if(screen != 3){
+        this.updateGameView()
       }
   }
   }
@@ -297,10 +297,12 @@ class Window extends PApplet {
     // open helpscreen
     else if(screen == 1 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
       screen = 5
+      helpOn = true
     }
     // open muted helpscreen
     else if(screen == 12 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
           screen = 52
+          helpOn = true
     }
     // open highscores
     else if((screen == 1) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
@@ -411,11 +413,13 @@ class Window extends PApplet {
       }
     //open unmuted helpscreen
       else if(screen == 5 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+        helpOn = false
         screen = 1
       }
     //open muted main menu
       else if(screen == 52 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
         screen = 12
+        helpOn = false
       }
     //mute helpscreen
       else if(screen ==5 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
@@ -493,59 +497,70 @@ class Window extends PApplet {
        }
       case 72 => {
          //shows & hides the helpscreen
-          if(game.wasGameOn == false){
-            if(helpOn == false){
-            if(music.mute == true){
-           gameTrue = false
-           helpOn = true
-           screen = 52
-           this.updateGameView
-         }
-         else{
-           gameTrue = false
-           helpOn = true
-           screen = 5
-           this.updateGameView
+          if(gameTrue == false && music.mute == true && helpOn == true && game.wasGameOn == false){
+            game.gameOver = false
+            helpOn = false
+            screen = 12
           }
-            }
-            else {
-              if(music.mute == true){
-           gameTrue = false
-           helpOn = false
-           screen = 12
-           this.updateGameView
-         }
-         else{
-           gameTrue = false
-           helpOn = false
-           screen = 1
-           this.updateGameView
+          else if(gameTrue == false && music.mute == false && helpOn == true && game.wasGameOn == false){
+            music.play("jokeri")
+            music.stop("juna")
+            game.gameOver = false
+            helpOn = false
+            screen = 1
           }
+          else if(gameTrue == false && music.mute == true && helpOn == false && game.wasGameOn == false){
+            helpOn = true
+            screen = 52
+          }
+          else if(gameTrue == false && music.mute == false && helpOn == false && game.wasGameOn == false){ 
+            helpOn = true
+            screen = 5
             }
-        }  
-      else{
-        if(helpOn == false){
-          gameTrue = false
-        if(music.mute == true){
-          helpOn = true
-          screen = 52
-          this.updateGameView
-        }
-        else{
-          helpOn = true
-          screen = 5
-          this.updateGameView
-        }
-        }
-        else{
-          helpOn = false
-          screen = 3
-        game.gameOver = false
-        game.clear()
-        game.start(game.originalLevel)
-        gameTrue = true
-        }
-      }
+          else if(gameTrue == true && music.mute == false && helpOn == false && game.wasGameOn == false){
+            gameTrue = false
+            helpOn = true
+            screen = 5
+          }
+          else if(gameTrue == true && music.mute == true && helpOn == false && game.wasGameOn == false){
+            gameTrue = false
+            helpOn = true
+            screen = 52
+          }
+          else if(gameTrue == true && music.mute == false && helpOn == true && game.wasGameOn == false){
+            helpOn = false
+            game.gameOver = false
+            gameTrue = false
+            screen = 1
+          }
+          else if(gameTrue == true && music.mute == true && helpOn == true && game.wasGameOn == false){
+            helpOn = false
+            game.gameOver = false
+            gameTrue = false
+            screen = 12
+          }
+          else if(gameTrue == true && music.mute == false && helpOn == false && game.wasGameOn == true){
+            helpOn = true
+            gameTrue = false
+            screen = 5
+          }
+          else if(gameTrue == true && music.mute == true && helpOn == false && game.wasGameOn == true){
+            helpOn = true
+            gameTrue = false
+            screen = 52
+          }
+          else if(gameTrue == false && music.mute == true && helpOn == true && game.wasGameOn == true){
+            helpOn = false
+            screen = 3
+            gameTrue = true
+          }
+          else if(gameTrue == false && music.mute == false && helpOn == true && game.wasGameOn == true){
+            helpOn = false
+            screen = 3
+            gameTrue = true
+          }
+          if(screen != 3 ){this.updateGameView}
+          
       }
       //any other - does nothing
       case _ => {}
