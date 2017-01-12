@@ -21,6 +21,7 @@ class Game(val width: Int, val height: Int) {
   dirY += (1,-1,0,0)
   //the variable that changes when the "snake" hits itself
   var gameOver = false
+  var wasGameOn = false
   //starting direction
   var dir = 2
   //starting spot for the "apple"
@@ -66,24 +67,31 @@ class Game(val width: Int, val height: Int) {
     }
     //if the snake hits itself it's gameover
     for(i <- 1 until snakeX.size) {
-      if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)) gameOver = true
+      if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)){
+        gameOver = true
+        wasGameOn = false
+    }
     }
     //if snake hits wall game ends
     if(gameLevelForWalls>1 && snakeX(0) == this.width-1 && dirX(dir) == 1){
       snakeX = snakeX.map(_-1)
       gameOver = true
+      wasGameOn = false
     }
     else if(gameLevelForWalls>1 && snakeX(0) == 0 && dirX(dir) == -1){
       snakeX = snakeX.map(_+1)
       gameOver = true
+      wasGameOn = false
     }
     else if(gameLevelForWalls>1 && snakeY(0) == 0 && dirY(dir) == -1){
       snakeY = snakeY.map(_+1)
+      wasGameOn = false
       gameOver = true
     }
     else if(gameLevelForWalls>1 && snakeY(0) == this.height-1 && dirY(dir) == 1){
       snakeY = snakeY.map(_-1)
       gameOver = true
+      wasGameOn = false
     }
     //when the "snake's head" and the "apple" are aligned
     if(snakeX(0) == appleX && snakeY(0) == appleY) {
