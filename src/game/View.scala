@@ -36,6 +36,8 @@ class Window extends PApplet {
   //variable for helpscreen
   private var helpTrue = false
   
+  private var helpOn = false
+   
   //setting the size of the window
   override def settings() = {
     size(windowWidth * blockSize, windowHeight * blockSize)
@@ -107,6 +109,25 @@ class Window extends PApplet {
      this.gameOverScores
      }
   }
+   
+   private def startGame(level: Int) = {
+               if(!gameTrue) {
+          if(music.clip2.isActive()) {
+            music.stop("jokeri")
+          }
+          game.wasGameOn = true
+          game.clear()
+          music.play("juna")
+          game.start(level)
+          gameTrue = true
+          }
+          else{
+            game.clear()
+            game.start(level)
+          gameTrue = true
+          }
+          screen = 3
+   }
 
   //scoreboard for the gamescreen
   private def drawScoreboard() {
@@ -182,6 +203,76 @@ class Window extends PApplet {
     drawBasicSnake()
   }
   
+  def muteScreen(mute: Boolean) = {
+    if(mute == true){ 
+    //mute main menu
+    if(screen ==1){
+          screen = 12
+          music.stop("jokeri")
+          music.mute = true
+    }
+    //mute highscores
+        else if(screen ==6){
+          screen = 62
+          music.stop("jokeri") 
+          music.mute = true
+        }
+    //mute levelscreen
+      else if(screen ==2){
+        screen = 22
+        music.stop("jokeri") 
+        music.mute = true
+      }
+    // mute gameover
+      else if(screen == 4){
+        screen = 42
+        music.stop("juna")
+        music.mute = true
+      }
+    //mute helpscreen
+      else if(screen ==5){
+        screen = 52
+        music.stop("jokeri") 
+        music.mute = true
+      }
+  }
+  else{
+    //unmute main menu
+     if(screen ==12){
+      screen = 1
+      music.mute = false
+      music.play("jokeri") 
+    }
+    //unmute highscores
+        else if(screen == 62){
+          screen = 6
+        music.mute = false
+        music.play("jokeri") 
+        }
+    //unmute levelscreen
+      else if(screen == 12){
+        screen = 2
+        music.mute = false
+        music.play("jokeri") 
+      }
+    //unmute helpscreen
+      else if(screen == 52){
+        screen = 5
+      music.mute = false
+      music.play("jokeri") 
+      }
+      if(screen != 3){
+        this.updateGameView()
+      }
+          // mute gameover
+      else if(screen == 42){
+        screen = 42
+        music.stop("juna")
+        music.mute = true
+      }
+  }
+  }
+  
   override def mouseClicked(){
     //mute main menu
     if(screen ==1 && mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580&& !music.mute){
@@ -242,63 +333,20 @@ class Window extends PApplet {
     // start easy
         else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
           if(screen == 2){
-          screen = 3
-          if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          game.clear()
-          music.play("juna")
-          game.start(1)
-          gameTrue = true
-          }
-          }
-          else{
-            game.clear()
-            game.start(1)
-          gameTrue = true
-          }
-          screen = 3
+          this.startGame(1)
+        }
         }
    //start medium
         else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
           if(screen == 2){
-          if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          game.clear()
-          music.play("juna")
-          game.start(2)
-          gameTrue = true
-          }
-          }
-          else{
-            game.clear()
-            game.start(2)
-          gameTrue = true
-          }
-          screen = 3
+          this.startGame(2)
+        }
         }
    //start hard
         else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
           if(screen == 2){
-          if(!gameTrue) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          game.clear()
-          music.play("juna")
-          game.start(3)
-          gameTrue = true
-          }
-          }
-          else{
-            game.clear()
-            game.start(3)
-          gameTrue = true
-          }
-          screen = 3
+          this.startGame(3)
+        }
         }
     //mute levelscreen
       else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
@@ -415,6 +463,89 @@ class Window extends PApplet {
         if(game.dir == 2 || game.dir == 3) {
           game.dir = 0
         }
+      }
+      case 77 => {
+         //checks what to mute
+         if(!gameTrue) {
+           if(music.mute == true){
+             this.muteScreen(false)
+             music.mute = false
+             music.play("jokeri")
+             this.updateGameView
+           }
+           else{
+           this.muteScreen(true)
+           music.stop("jokeri")
+           music.mute = true
+           this.updateGameView
+           }
+         }
+         else {
+           if(music.mute == true){
+             music.mute = false
+             music.play("juna")
+           }
+           else{
+             music.stop("juna")
+             music.mute =  true
+           }
+         }
+       }
+      case 72 => {
+         //shows & hides the helpscreen
+          if(game.wasGameOn == false){
+            if(helpOn == false){
+            if(music.mute == true){
+           gameTrue = false
+           helpOn = true
+           screen = 52
+           this.updateGameView
+         }
+         else{
+           gameTrue = false
+           helpOn = true
+           screen = 5
+           this.updateGameView
+          }
+            }
+            else {
+              if(music.mute == true){
+           gameTrue = false
+           helpOn = false
+           screen = 12
+           this.updateGameView
+         }
+         else{
+           gameTrue = false
+           helpOn = false
+           screen = 1
+           this.updateGameView
+          }
+            }
+        }  
+      else{
+        if(helpOn == false){
+          gameTrue = false
+        if(music.mute == true){
+          helpOn = true
+          screen = 52
+          this.updateGameView
+        }
+        else{
+          helpOn = true
+          screen = 5
+          this.updateGameView
+        }
+        }
+        else{
+          helpOn = false
+          screen = 3
+        game.gameOver = false
+        game.clear()
+        game.start(game.originalLevel)
+        gameTrue = true
+        }
+      }
       }
       //any other - does nothing
       case _ => {}
