@@ -465,6 +465,7 @@ class Window extends PApplet {
           game.dir = 0
         }
       }
+      //m-key
       case 77 => {
          //checks what to mute
          if(!gameTrue) {
@@ -492,6 +493,7 @@ class Window extends PApplet {
            }
          }
        }
+      //h-key
       case 72 => {
          //shows & hides the helpscreen
           if(gameTrue == false && music.mute == true && helpOn == true && game.wasGameOn == false){
