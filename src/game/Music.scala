@@ -2,7 +2,6 @@ package game
 
 import javax.sound.sampled._
 import java.io.File
-import  sun.audio._
 
 //class for starting and stopping music
 class Music {
