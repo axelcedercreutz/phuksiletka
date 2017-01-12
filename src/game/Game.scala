@@ -152,10 +152,8 @@ class Game(val width: Int, val height: Int) {
       }
       //cuts the "snake"
       else if(next == 2) {
-        if(snakeX.size >= 5) {
-          snakeX.remove(snakeX.size - 4, 3)
-          snakeY.remove(snakeY.size - 4, 3)
-        }
+        snakeX.remove(snakeX.size - 4, 3)
+        snakeY.remove(snakeY.size - 4, 3)
       }
       //makes the "snake" longer
       else if(next == 3) {
