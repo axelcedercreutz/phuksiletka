@@ -67,8 +67,10 @@ class Game(val width: Int, val height: Int) {
     }
     //if the snake hits itself it's gameover
     for(i <- 1 until snakeX.size) {
-      if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i))
+      if(snakeX(0) == snakeX(i) && snakeY(0) == snakeY(i)){
         gameOver = true
+        wasGameOn = false
+    }
     }
     //if snake hits wall game ends
     if(gameLevelForWalls>1 && snakeX(0) == this.width-1 && dirX(dir) == 1){
