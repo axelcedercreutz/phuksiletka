@@ -107,18 +107,7 @@ class Window extends PApplet {
      this.gameOverScores
      }
   }
-   
-   
-  //what is drawn in the helpscreen
-  private def drawHelpScreen() {
-    //color
-    fill(118, 22, 167)
-    //size
-    textSize(17)
-    text("Yritä kerätä mahdollisimman monta viinaa,\nkerätyt viinat keräävät sinulle kavereita mukaan!", (windowHeight * blockSize)/2, 260)
-    text( "Liiku käyttämällä nuolinäppäimiä!", (windowHeight * blockSize)/2, 320)
-    text( "Aloita painamalla 1,2 tai 3!", (windowHeight * blockSize)/2, 350)
-  }
+
   //scoreboard for the gamescreen
   private def drawScoreboard() {
     fill(118, 22, 167)
