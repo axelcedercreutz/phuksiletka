@@ -33,8 +33,6 @@ class Window extends PApplet {
   private val music = game.music
   //variable for gamescreen
   private var gameTrue = false
-  //variable for helpscreen
-  private var helpTrue = false
   
   //setting the size of the window
   override def settings() = {
@@ -51,10 +49,9 @@ class Window extends PApplet {
     //our background color
     background(250)
     //main menu
-    if(!gameTrue && !helpTrue) {
+    if(!gameTrue) {
       firstScreen()
-    }
-    else if (gameTrue){
+    } else {
       gameScreen()
     }
   }
