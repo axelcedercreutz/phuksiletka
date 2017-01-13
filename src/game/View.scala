@@ -33,8 +33,10 @@ class Window extends PApplet {
   private val music = game.music
   //variable for gamescreen
   private var gameTrue = false
-  
+  //for helpScreen
   private var helpOn = false
+  //for time with powerUp
+  private var powerUpCount = 0
      
   //setting the size of the window
   override def settings() = {
@@ -146,15 +148,51 @@ class Window extends PApplet {
     //chooses the gamespeed
     if(game.gameLevel == 4) {
       frameRate(60)
+      
+      //making sure the speed up/down goes away
+      if(game.originalLevel != game.gameLevel) {
+        powerUpCount += 1
+        if(powerUpCount % 300 == 0) {
+          game.gameLevel = game.originalLevel
+          powerUpCount = 0
+        }
+      }
     }
     else if(game.gameLevel == 3) {
       frameRate(45)
+      
+      //making sure the speed up/down goes away
+      if(game.originalLevel != game.gameLevel) {
+        powerUpCount += 1
+        if(powerUpCount % 300 == 0) {
+          game.gameLevel = game.originalLevel
+          powerUpCount = 0
+        }
+      }
     }
     else if(game.gameLevel == 2) {
       frameRate(30)
+      
+      //making sure the speed up/down goes away
+      if(game.originalLevel != game.gameLevel) {
+        powerUpCount += 1
+        if(powerUpCount % 300 == 0) {
+          game.gameLevel = game.originalLevel
+          powerUpCount = 0
+        }
+      }
     }
     else {
       frameRate(15)
+      
+      //making sure the speed up/down goes away
+      if(game.originalLevel != game.gameLevel) {
+        powerUpCount += 1
+        if(powerUpCount % 300 == 0) {
+          game.gameLevel = game.originalLevel
+          powerUpCount = 0
+        }
+      }
     }
     //creates the "snake"
     for(i <- 0 until game.snakeX.size) {
