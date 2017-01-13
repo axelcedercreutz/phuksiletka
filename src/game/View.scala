@@ -148,7 +148,6 @@ class Window extends PApplet {
     //chooses the gamespeed
     if(game.gameLevel == 4) {
       frameRate(60)
-      
       //making sure the speed up/down goes away
       if(game.originalLevel != game.gameLevel) {
         powerUpCount += 1
@@ -160,7 +159,6 @@ class Window extends PApplet {
     }
     else if(game.gameLevel == 3) {
       frameRate(45)
-      
       //making sure the speed up/down goes away
       if(game.originalLevel != game.gameLevel) {
         powerUpCount += 1
@@ -172,7 +170,6 @@ class Window extends PApplet {
     }
     else if(game.gameLevel == 2) {
       frameRate(30)
-      
       //making sure the speed up/down goes away
       if(game.originalLevel != game.gameLevel) {
         powerUpCount += 1
@@ -184,11 +181,10 @@ class Window extends PApplet {
     }
     else {
       frameRate(15)
-      
       //making sure the speed up/down goes away
       if(game.originalLevel != game.gameLevel) {
         powerUpCount += 1
-        if(powerUpCount % 300 == 0) {
+        if(powerUpCount % 250 == 0) {
           game.gameLevel = game.originalLevel
           powerUpCount = 0
         }
