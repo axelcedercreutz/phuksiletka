@@ -110,7 +110,7 @@ class Window extends PApplet {
   }
    
    private def startGame(level: Int) = {
-               if(!gameTrue) {
+               if(screen==2) {
           if(music.clip2.isActive()) {
             music.stop("jokeri")
           }
@@ -365,21 +365,15 @@ class Window extends PApplet {
         }
     // start easy
         else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
-          if(screen == 2){
           this.startGame(1)
-        }
         }
    //start medium
         else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
-          if(screen == 2){
           this.startGame(2)
-        }
         }
    //start hard
         else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
-          if(screen == 2){
           this.startGame(3)
-        }
         }
     //mute levelscreen
       else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
