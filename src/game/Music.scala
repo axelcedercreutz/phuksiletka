@@ -7,7 +7,7 @@ import java.io.File
 class Music {
   //creating AudioInputStreams of all the required songs
   private val junaKulkee = AudioSystem.getAudioInputStream(new File("music/juna_kulkee.wav"))
-  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki.wav"))
+  private val jokeriTuplaus = AudioSystem.getAudioInputStream(new File("music/jokeri_pokeri_tuplaus_musiikki_korjattu.wav"))
   private val slurp = AudioSystem.getAudioInputStream(new File("music/slurp.wav"))
   //clips for all of the different songs
   val clip = AudioSystem.getClip
