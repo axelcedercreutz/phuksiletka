@@ -10,7 +10,6 @@ import java.io.File
 //import math
 import scala.math._
 
-
 //the main window object
 object Window {
   def main(args: Array[String]) {
@@ -79,7 +78,57 @@ class Window extends PApplet {
   private def drawFirstScreen() {
     updateGameView()    
   }
- 
+  
+  private def updateGameView() = {
+    if(screen != 6 && screen != 62 && screen != 4 && screen != 42){
+       image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+    }
+    else if(screen == 6 || screen == 62){
+      image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+      this.drawScores
+    }
+    else{
+      image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
+      this.gameOverScores
+    }
+  }
+   
+   private def startGame(level: Int) = {
+     if(screen==2) {
+       if(music.clip2.isActive()) {
+            music.stop("jokeri")
+       }
+       game.wasGameOn = true
+       game.clear()
+       music.play("juna")
+       game.start(level)
+       gameTrue = true
+    }
+    else{
+      game.clear()
+      game.start(level)
+      gameTrue = true
+    }
+    screen = 3
+   }
+
+  //scoreboard for the gamescreen
+  private def drawScoreboard() {
+    fill(118, 22, 167)
+    textSize(17)
+    if(game.snakeX.head <= 10 && game.snakeY.head <= 7 ||
+       game.snakeX.last <= 10 && game.snakeY.last <= 7   ) {
+      text( "Score: " + game.count, 820, 500)
+      //shows the highscore
+      text( "High Score: "+ max(game.count, game.correctHighScore()), 820, 520)
+    }
+    else {
+      text( "Score: " + game.count, 70, 50)
+      //shows the highscore
+      text( "High Score: "+ max(game.count, game.correctHighScore()), 70, 70)
+    }
+  }
+  
   //add walls if playing with game modes 2 or 3
   private def drawWalls() = {
     val kuva = loadImage("photos/wall2.png")
@@ -95,47 +144,6 @@ class Window extends PApplet {
     }
   }
   
-   private def updateGameView() = {
-     if(screen != 6 && screen != 62 && screen != 4 && screen != 42){
-    image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
-     }
-     else if(screen == 6 || screen == 62){
-     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
-     this.drawScores
-     }
-     else{
-     image(loadImage("photos/screen"+screen+".png"),0,0,windowWidth*blockSize,windowHeight*blockSize)
-     this.gameOverScores
-     }
-  }
-   
-   private def startGame(level: Int) = {
-               if(screen==2) {
-          if(music.clip2.isActive()) {
-            music.stop("jokeri")
-          }
-          game.wasGameOn = true
-          game.clear()
-          music.play("juna")
-          game.start(level)
-          gameTrue = true
-          }
-          else{
-            game.clear()
-            game.start(level)
-          gameTrue = true
-          }
-          screen = 3
-   }
-
-  //scoreboard for the gamescreen
-  private def drawScoreboard() {
-    fill(118, 22, 167)
-    textSize(17)
-    text( "Score: " + game.count, 70, 50)
-    //shows the highscore
-    text( "High Score: "+ max(game.count, game.correctHighScore()), 70, 70)
-  }
   //draws the characters
   private def drawBasicSnake() {
     //image for the "snake"
@@ -236,72 +244,72 @@ class Window extends PApplet {
   
   def muteScreen(mute: Boolean) = {
     if(mute == true){ 
-    //mute main menu
-    if(screen ==1){
-          screen = 12
-          music.stop("jokeri")
-          music.mute = true
-    }
-    //mute highscores
-        else if(screen ==6){
-          screen = 62
-          music.stop("jokeri") 
-          music.mute = true
-        }
-    //mute levelscreen
+      //mute main menu
+      if(screen ==1){
+            screen = 12
+            music.stop("jokeri")
+            music.mute = true
+      }
+      //mute highscores
+      else if(screen ==6){
+        screen = 62
+        music.stop("jokeri") 
+        music.mute = true
+      }
+      //mute levelscreen
       else if(screen ==2){
         screen = 22
         music.stop("jokeri") 
         music.mute = true
       }
-    // mute gameover
+      // mute gameover
       else if(screen == 4){
         screen = 42
         music.stop("juna")
         music.mute = true
       }
-    //mute helpscreen
+      //mute helpscreen
       else if(screen ==5){
         screen = 52
         music.stop("jokeri") 
         music.mute = true
       }
-  }
-  else{
-    //unmute main menu
-     if(screen ==12){
-      screen = 1
-      music.mute = false
-      music.play("jokeri") 
     }
-    //unmute highscores
-        else if(screen == 62){
-          screen = 6
+    else{
+      //unmute main menu
+      if(screen ==12){
+         screen = 1
+         music.mute = false
+         music.play("jokeri") 
+      }
+      //unmute highscores
+      else if(screen == 62){
+        screen = 6
         music.mute = false
         music.play("jokeri") 
-        }
-    //unmute levelscreen
+      }
+      //unmute levelscreen
       else if(screen == 12){
         screen = 2
         music.mute = false
         music.play("jokeri") 
       }
-    //unmute helpscreen
+      //unmute helpscreen
       else if(screen == 52){
         screen = 5
-      music.mute = false
-      music.play("jokeri") 
+        music.mute = false
+        music.play("jokeri") 
       }
-          // mute gameover
+      // mute gameover
       else if(screen == 42){
         screen = 42
         music.stop("juna")
         music.mute = true
       }
-     if(screen != 3){
+      if(screen != 3){
         this.updateGameView()
       }
-  }
+    }
   }
   
   override def mouseClicked(){
@@ -332,8 +340,8 @@ class Window extends PApplet {
     }
     // open muted helpscreen
     else if(screen == 12 && mouseX>342 && mouseX<632 && mouseY>292 && mouseY<363){
-          screen = 52
-          helpOn = true
+      screen = 52
+      helpOn = true
     }
     // open highscores
     else if((screen == 1) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
@@ -344,123 +352,123 @@ class Window extends PApplet {
       screen = 62
     }
     //open muted main menu
-        else if(screen == 62 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-          screen = 12
-        }
+    else if(screen == 62 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 12
+    }
     //open unmuted mainmenu
-        else if(screen == 6 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-          screen = 1
-        }
+    else if(screen == 6 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 1
+    }
     //mute highscores
-        else if(screen ==6 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
-          screen = 62
-          music.stop("jokeri") 
-          music.mute = true
-        }
+    else if(screen ==6 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+      screen = 62
+      music.stop("jokeri") 
+      music.mute = true
+    }
     //unmute highscores
-        else if(screen == 62 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
-          screen = 6
-        music.mute = false
-        music.play("jokeri") 
-        }
-    // start easy
-        else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
-          this.startGame(1)
-        }
-   //start medium
-        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
-          this.startGame(2)
-        }
-   //start hard
-        else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
-          this.startGame(3)
-        }
-    //mute levelscreen
-      else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
-        screen = 22
-        music.stop("jokeri") 
-        music.mute = true
-      }
-    //unmute levelscreen
-      else if(screen == 22 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
-        screen = 2
-        music.mute = false
-        music.play("jokeri") 
-      }
-    //open unmuted mainmenu
-      else if(screen == 2 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-        screen = 1          
-      }
-    //open muted mainmenu
-      else if(screen == 22 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588) screen = 12
-        
-    //game over
-      else if(screen == 4 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
-        screen = 3
-        game.gameOver = false
-        game.clear()
-        game.start(game.originalLevel)
-        gameTrue = true
-      }
-     // restart
-      else if(screen == 42 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
-        screen = 3
-        game.gameOver = false
-        game.clear()
-        game.start(game.originalLevel)
-        gameTrue = true
-      }
-    //open unmuted main menu
-      else if(screen == 4 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-        screen = 1
-        music.stop("juna")
-        music.play("jokeri")
-        game.gameOver = false
-        gameTrue = false
-      }
-      // open muted main menu  
-      else if(screen == 42 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-        screen = 12
-        game.gameOver = false
-        gameTrue = false
-      }
-      // mute gameover
-      else if(screen == 4 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && !music.mute){
-        screen = 42
-        music.stop("juna")
-        music.mute = true
-      }
-    // unmute gameover
-      else if (screen == 42 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && music.mute){
-        screen = 4
-        music.mute = false
-        music.play("juna")
-      }
-    //open unmuted helpscreen
-      else if(screen == 5 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-        helpOn = false
-        screen = 1
-      }
-    //open muted main menu
-      else if(screen == 52 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
-        screen = 12
-        helpOn = false
-      }
-    //mute helpscreen
-      else if(screen ==5 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
-        screen = 52
-        music.stop("jokeri") 
-        music.mute = true
-      }
-    //unmute helpscreen
-      else if(screen == 52 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
-        screen = 5
+    else if(screen == 62 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+      screen = 6
       music.mute = false
       music.play("jokeri") 
-      }
-      if(screen != 3){
-        this.updateGameView()
-      }
+    }
+    // start easy
+    else if((screen == 2 || screen==22) &&mouseX >342 && mouseX<632 && mouseY >198 && mouseY<274){
+      this.startGame(1)
+    }
+   //start medium
+    else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >275 && mouseY<360){
+      this.startGame(2)
+    }
+   //start hard
+    else if((screen == 2 || screen == 22) && mouseX >342 && mouseX<632 && mouseY >380 && mouseY<456){
+      this.startGame(3)
+    }
+    //mute levelscreen
+    else if(screen ==2 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+      screen = 22
+      music.stop("jokeri") 
+      music.mute = true
+    }
+    //unmute levelscreen
+    else if(screen == 22 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+      screen = 2
+      music.mute = false
+      music.play("jokeri") 
+    }
+    //open unmuted mainmenu
+    else if(screen == 2 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 1          
+    }
+    //open muted mainmenu
+    else if(screen == 22 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588) screen = 12
+        
+    //game over
+    else if(screen == 4 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
+      screen = 3
+      game.gameOver = false
+      game.clear()
+      game.start(game.originalLevel)
+      gameTrue = true
+    }
+    // restart
+    else if(screen == 42 && mouseX >402 && mouseX<682 && mouseY >516 && mouseY<590){
+      screen = 3
+      game.gameOver = false
+      game.clear()
+      game.start(game.originalLevel)
+      gameTrue = true
+    }
+    //open unmuted main menu
+    else if(screen == 4 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 1
+      music.stop("juna")
+      music.play("jokeri")
+      game.gameOver = false
+      gameTrue = false
+    }
+    // open muted main menu  
+    else if(screen == 42 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 12
+      game.gameOver = false
+      gameTrue = false
+    }
+    // mute gameover
+    else if(screen == 4 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && !music.mute){
+      screen = 42
+      music.stop("juna")
+      music.mute = true
+    }
+    // unmute gameover
+    else if (screen == 42 && mouseX >892 && mouseX<965 && mouseY >516 && mouseY<577 && music.mute){
+      screen = 4
+      music.mute = false
+      music.play("juna")
+    }
+    //open unmuted helpscreen
+    else if(screen == 5 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      helpOn = false
+      screen = 1
+    }
+    //open muted main menu
+    else if(screen == 52 &&mouseX >83 && mouseX<320 && mouseY >528 && mouseY<588){
+      screen = 12
+      helpOn = false
+    }
+    //mute helpscreen
+    else if(screen ==5 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && !music.mute){
+      screen = 52
+      music.stop("jokeri") 
+      music.mute = true
+    }
+    //unmute helpscreen
+    else if(screen == 52 &&mouseX >888 && mouseX<968 && mouseY >516 && mouseY<580 && music.mute){
+      screen = 5
+      music.mute = false
+      music.play("jokeri") 
+    }
+    if(screen != 3){
+      this.updateGameView()
+    }
   }
   //detecting key presses
   override def keyPressed(){
@@ -504,10 +512,10 @@ class Window extends PApplet {
              this.updateGameView
            }
            else{
-           this.muteScreen(true)
-           music.stop("jokeri")
-           music.mute = true
-           this.updateGameView
+             this.muteScreen(true)
+             music.stop("jokeri")
+             music.mute = true
+             this.updateGameView
            }
          }
          else {
@@ -586,7 +594,7 @@ class Window extends PApplet {
             screen = 3
             gameTrue = true
           }
-          if(screen != 3 ){this.updateGameView}
+          if(screen != 3 ) this.updateGameView
           
       }
       //any other - does nothing
